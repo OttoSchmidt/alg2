@@ -1,6 +1,7 @@
 #include "ordenacao.h"
 
 #include <string.h>
+#include <stdio.h>
 
 void getNome(char nome[]) {
     strncpy(nome, "Otto Schmidt", MAX_CHAR_NOME);
@@ -35,40 +36,42 @@ ssize_t buscaSequencialRec(int vetor[], size_t tam, int valor,
 
 ssize_t buscaBinaria(int vetor[], size_t tam, int valor,
                     uint64_t* numComparacoes) {
-    size_t pivot;
+    size_t pivot, head = 0, tail = tam - 1;
 
-    while (tam > 1) {
-        pivot = tam/2;
+    while (head <= tail) {
+        pivot = (head + tail + 1)/2;
 
-        if (vetor[pivot] == vetor[valor]) {
-            *numComparacoes += 1;
+        if (vetor[pivot] == valor) {
+            *numComparacoes += 1;        
             return pivot;
-        } else if (vetor[pivot] < vetor[valor]) {
+        } else if (vetor[pivot] < valor) {
             *numComparacoes += 2;
-            tam = pivot - 1;
+            head = pivot + 1;
         } else {
             *numComparacoes += 2;
-            tam = pivot;
-            vetor += pivot;
+            tail = pivot - 1;
         }
-    }
+    } 
 
     return -1;
 }
 
 ssize_t buscaBinariaRec(int vetor[], size_t tam, int valor,
                         uint64_t* numComparacoes) {
-    size_t pivot = tam/2;
+    size_t pivot;
 
     if (tam < 1) return -1;
 
-    if (vetor[pivot] == vetor[valor]) {
+    pivot = tam/2;
+
+    if (vetor[pivot] == valor) {
         return pivot;
-    } else if (vetor[pivot] < vetor[valor]) {
-        return buscaBinariaRec(vetor, pivot, valor, numComparacoes);
+    } else if (vetor[pivot] < valor) {
+        return (pivot + 1) + buscaBinariaRec(vetor + (pivot + 1), pivot, valor, numComparacoes);
+        // retornei (pivot + 1) + buscaBinaria pois o vetor foi deslocado pivot + 1
     }
 
-    return buscaBinariaRec(vetor + pivot, pivot, valor, numComparacoes);
+    return buscaBinariaRec(vetor, pivot - 1, valor, numComparacoes);
 }
 
 uint64_t insertionSort(int vetor[], size_t tam) {

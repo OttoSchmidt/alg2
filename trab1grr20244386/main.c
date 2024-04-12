@@ -49,20 +49,22 @@ int main() {
     }
     */
 
+    int valor = 8;
+
     numComp = 0;
-    idxBusca = buscaSequencial(vetor, tamVetor, 5, &numComp);
+    idxBusca = buscaSequencial(vetor, tamVetor, valor, &numComp);
     printf("\n%zd \n", idxBusca);
 
     numComp = 0;
-    idxBusca = buscaSequencialRec(vetor, tamVetor, 5, &numComp);
+    idxBusca = buscaSequencialRec(vetor, tamVetor, valor, &numComp);
     printf("\n%zd \n", idxBusca);
 
     numComp = 0;
-    idxBusca = buscaBinaria(vetor, tamVetor, 5, &numComp);
+    idxBusca = buscaBinaria(vetor, tamVetor, valor, &numComp);
     printf("\n%zd \n", idxBusca);
 
     numComp = 0;
-    idxBusca = buscaBinariaRec(vetor, tamVetor, 5, &numComp);
+    idxBusca = buscaBinariaRec(vetor, tamVetor, valor, &numComp);
     printf("\n%zd \n", idxBusca);
 
 
