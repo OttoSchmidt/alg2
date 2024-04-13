@@ -7,12 +7,23 @@
 
 #include "ordenacao.h"
 
+int verificarExistencia (int vetor[], int num, size_t local) {
+    if (vetor[local] == num) {
+        return 1;
+    }
+
+    return 0;
+}
+
 int main() {
     char nome[MAX_CHAR_NOME];
     size_t idxBusca;
     uint64_t numComp;
 
-    ssize_t tamVetor = 12;
+    clock_t start, end;
+    double total;
+
+    ssize_t tamVetor = 10;
     int* vetor = malloc(tamVetor * sizeof(int));
     if (vetor == NULL) {
         printf("Falha fatal. Impossível alocar memoria.");
@@ -22,13 +33,59 @@ int main() {
     //gerando vetor organizado
     for (size_t i = 0; i < tamVetor; i++) {
         vetor[i] = i + 1;
-        printf("[%d] ", vetor[i]); //REMOVER
     }
-    printf("\n");
 
     getNome(nome);
     printf("Trabalho de %s\n", nome);
     printf("GRR %u\n", getGRR());
+
+    int valorBuscar = 8;
+
+    printf("BUSCA SEQUENCIAL\n");
+    numComp = 0;
+    start = clock();
+    idxBusca = buscaSequencial(vetor, tamVetor, valorBuscar, &numComp);
+    end = clock();
+    total = ((double)end - start) / CLOCKS_PER_SEC;
+    printf("Tempo total: %f\n Comparacoes: %ld\n", total, numComp);
+    if (!verificarExistencia(vetor, valorBuscar, idxBusca)) {
+        printf("VALOR ERRADO: %zd (%d)\n", idxBusca, vetor[idxBusca]);
+    }
+
+    
+    printf("BUSCA SEQUENCIAL RECURSIVA\n");
+    numComp = 0;
+    start = clock();
+    idxBusca = buscaSequencialRec(vetor, tamVetor, valorBuscar, &numComp);
+    end = clock();
+    total = ((double)end - start) / CLOCKS_PER_SEC;
+    printf("Tempo total: %f\n Comparacoes: %ld\n", total, numComp);
+    if (!verificarExistencia(vetor, valorBuscar, idxBusca)) {
+        printf("VALOR ERRADO: %zd (%d)\n", idxBusca, vetor[idxBusca]);
+    }
+    
+
+    printf("BUSCA BINARIA\n");
+    numComp = 0;
+    start = clock();
+    idxBusca = buscaBinaria(vetor, tamVetor, valorBuscar, &numComp);
+    end = clock();
+    total = ((double)end - start) / CLOCKS_PER_SEC;
+    printf("Tempo total: %f\n Comparacoes: %ld\n", total, numComp);
+    if (!verificarExistencia(vetor, valorBuscar, idxBusca)) {
+        printf("VALOR ERRADO: %zd (%d)\n", idxBusca, vetor[idxBusca]);
+    }
+
+    printf("BUSCA BINÁRIA RECURSIVA\n");
+    numComp = 0;
+    start = clock();
+    idxBusca = buscaBinariaRec(vetor, tamVetor, valorBuscar, &numComp);
+    end = clock();
+    total = ((double)end - start) / CLOCKS_PER_SEC;
+    printf("Tempo total: %f\n Comparacoes: %ld\n", total, numComp);
+    if (!verificarExistencia(vetor, valorBuscar, idxBusca)) {
+        printf("VALOR ERRADO: %zd (%d)\n", idxBusca, vetor[idxBusca]);
+    }
 
     /*
     clock_t start, end;
@@ -49,23 +106,7 @@ int main() {
     }
     */
 
-    int valor = 8;
-
-    numComp = 0;
-    idxBusca = buscaSequencial(vetor, tamVetor, valor, &numComp);
-    printf("\n%zd \n", idxBusca);
-
-    numComp = 0;
-    idxBusca = buscaSequencialRec(vetor, tamVetor, valor, &numComp);
-    printf("\n%zd \n", idxBusca);
-
-    numComp = 0;
-    idxBusca = buscaBinaria(vetor, tamVetor, valor, &numComp);
-    printf("\n%zd \n", idxBusca);
-
-    numComp = 0;
-    idxBusca = buscaBinariaRec(vetor, tamVetor, valor, &numComp);
-    printf("\n%zd \n", idxBusca);
+    
 
 
     free(vetor);

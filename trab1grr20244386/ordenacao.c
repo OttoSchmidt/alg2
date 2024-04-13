@@ -13,7 +13,7 @@ uint32_t getGRR() { return 20244386; }
 ssize_t buscaSequencial(int vetor[], size_t tam, int valor,
                         uint64_t* numComparacoes) {
 
-    for (size_t i = 0; i < tam; i++) {
+    for (size_t i = tam - 1; i > 0; i--) {
         *numComparacoes += 1;
         
         if (vetor[i] == valor) {
@@ -27,7 +27,7 @@ ssize_t buscaSequencial(int vetor[], size_t tam, int valor,
 ssize_t buscaSequencialRec(int vetor[], size_t tam, int valor,
                             uint64_t* numComparacoes) {
     if (tam < 1) return -1;
-    
+
     *numComparacoes += 1;
     if (vetor[tam - 1] == valor) return tam - 1;
 
@@ -56,22 +56,28 @@ ssize_t buscaBinaria(int vetor[], size_t tam, int valor,
     return -1;
 }
 
-ssize_t buscaBinariaRec(int vetor[], size_t tam, int valor,
-                        uint64_t* numComparacoes) {
+ssize_t buscaBinariaRecReal(int vetor[], size_t a, size_t b, int valor, uint64_t* numComparacoes) {
     size_t pivot;
 
-    if (tam < 1) return -1;
+    if (a > b) return -1;
 
-    pivot = tam/2;
+    pivot = (a + b + 1)/2;
 
     if (vetor[pivot] == valor) {
+        *numComparacoes += 1;
         return pivot;
     } else if (vetor[pivot] < valor) {
-        return (pivot + 1) + buscaBinariaRec(vetor + (pivot + 1), pivot, valor, numComparacoes);
-        // retornei (pivot + 1) + buscaBinaria pois o vetor foi deslocado pivot + 1
+        *numComparacoes += 2;
+        return buscaBinariaRecReal(vetor, pivot + 1, b, valor, numComparacoes);
     }
 
-    return buscaBinariaRec(vetor, pivot - 1, valor, numComparacoes);
+    *numComparacoes += 2;
+    return buscaBinariaRecReal(vetor, a, pivot - 1, valor, numComparacoes);
+}
+
+ssize_t buscaBinariaRec(int vetor[], size_t tam, int valor,
+                        uint64_t* numComparacoes) {
+    return buscaBinariaRecReal(vetor, 0, tam - 1, valor, numComparacoes);
 }
 
 uint64_t insertionSort(int vetor[], size_t tam) {

@@ -1,5 +1,12 @@
 {
     "files.associations": {
         "stdint.h": "c"
-    }
-}
+    },
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/home/otto/Documents/Repositories/alg2/trab1grr20244386",
+            "binaryPath": "/home/otto/Documents/Repositories/alg2/trab1grr20244386/trab",
+            "binaryArgs": []
+        }
+    ],
+}   
