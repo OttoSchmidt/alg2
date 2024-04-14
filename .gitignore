@@ -2,3 +2,4 @@
 trab
 *.out
 .vscode
+.vscode/*
