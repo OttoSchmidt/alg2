@@ -2,7 +2,7 @@ Insertion sort:
 Troca números maiores pelos menores
 
 Selection sort:
-Selecionar o n maior elemento, e o insere na posição n
+Selecionar o n menor elemento, e o insere na posição n
 
 Merge sort:
 Separa o vetor em n subvetores e realiza o merge, de forma que mantenha os subvetores organizados
