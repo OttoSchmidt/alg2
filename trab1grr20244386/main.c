@@ -15,13 +15,38 @@ int verificarExistencia (int vetor[], int num, size_t local) {
     return 0;
 }
 
+void imprimirVetor (int vetor[], size_t tam) {
+    for (size_t i = 0; i < tam; i++) {
+        printf("[%d] ", vetor[i]);
+    }
+    printf("\n");
+}
+
+void gerarVetorNaoCrescente (int vetor[], size_t tam) {
+    for (size_t i = 0; i < tam; i++) {
+        vetor[i] = tam - i;
+    }
+}
+
+size_t verificarOrdemNaoCrescente (int vetor[], size_t tam) {
+    for (size_t i = 0; i < tam - 1; i++) {
+        if (vetor[i] > vetor[i+1]) return i;
+    }
+
+    return -1;
+}
+
+void imprimirStatus (clock_t start, clock_t end, uint64_t numComparacoes) {
+    double total = ((double)end - start) / CLOCKS_PER_SEC;
+    printf("Tempo total: %f\nComparacoes: %ld\n", total, numComparacoes);
+}
+
 int main() {
     char nome[MAX_CHAR_NOME];
     size_t idxBusca;
     uint64_t numComp;
 
     clock_t start, end;
-    double total;
 
     ssize_t tamVetor = 10;
     int* vetor = malloc(tamVetor * sizeof(int));
@@ -41,71 +66,65 @@ int main() {
 
     int valorBuscar = 8;
 
-    printf("BUSCA SEQUENCIAL\n");
+    printf("\nBUSCA SEQUENCIAL\n");
     numComp = 0;
     start = clock();
     idxBusca = buscaSequencial(vetor, tamVetor, valorBuscar, &numComp);
     end = clock();
-    total = ((double)end - start) / CLOCKS_PER_SEC;
-    printf("Tempo total: %f\n Comparacoes: %ld\n", total, numComp);
+    imprimirStatus(start, end, numComp);
     if (!verificarExistencia(vetor, valorBuscar, idxBusca)) {
         printf("VALOR ERRADO: %zd (%d)\n", idxBusca, vetor[idxBusca]);
     }
 
     
-    printf("BUSCA SEQUENCIAL RECURSIVA\n");
+    printf("\nBUSCA SEQUENCIAL RECURSIVA\n");
     numComp = 0;
     start = clock();
     idxBusca = buscaSequencialRec(vetor, tamVetor, valorBuscar, &numComp);
     end = clock();
-    total = ((double)end - start) / CLOCKS_PER_SEC;
-    printf("Tempo total: %f\n Comparacoes: %ld\n", total, numComp);
+    imprimirStatus(start, end, numComp);
     if (!verificarExistencia(vetor, valorBuscar, idxBusca)) {
         printf("VALOR ERRADO: %zd (%d)\n", idxBusca, vetor[idxBusca]);
     }
     
 
-    printf("BUSCA BINARIA\n");
+    printf("\nBUSCA BINARIA\n");
     numComp = 0;
     start = clock();
     idxBusca = buscaBinaria(vetor, tamVetor, valorBuscar, &numComp);
     end = clock();
-    total = ((double)end - start) / CLOCKS_PER_SEC;
-    printf("Tempo total: %f\n Comparacoes: %ld\n", total, numComp);
+    imprimirStatus(start, end, numComp);
     if (!verificarExistencia(vetor, valorBuscar, idxBusca)) {
         printf("VALOR ERRADO: %zd (%d)\n", idxBusca, vetor[idxBusca]);
     }
 
-    printf("BUSCA BINÁRIA RECURSIVA\n");
+    printf("\nBUSCA BINÁRIA RECURSIVA\n");
     numComp = 0;
     start = clock();
     idxBusca = buscaBinariaRec(vetor, tamVetor, valorBuscar, &numComp);
     end = clock();
-    total = ((double)end - start) / CLOCKS_PER_SEC;
-    printf("Tempo total: %f\n Comparacoes: %ld\n", total, numComp);
+    imprimirStatus(start, end, numComp);
     if (!verificarExistencia(vetor, valorBuscar, idxBusca)) {
         printf("VALOR ERRADO: %zd (%d)\n", idxBusca, vetor[idxBusca]);
     }
 
-    /*
-    clock_t start, end;
-    double total;
+    tamVetor = 10000;
 
-    start = clock();  // start recebe o "ciclo" corrente
-    numComp = insertionSortRec(vetor, 3);
-    end = clock();  // end recebe o "ciclo" corrente
-    // o tempo total é a diferença dividia pelos ciclos por segundo
-    total = ((double)end - start) / CLOCKS_PER_SEC;
-    printf("Tempo total: %f", total);
+    vetor = (int*) realloc(vetor, tamVetor * sizeof(int));
 
-    numComp = selectionSortRec(vetor, 3);
-    numComp = selectionSort(vetor, 3);
+    //gerando vetor organizado de forma não crescente
+    gerarVetorNaoCrescente(vetor, tamVetor);
 
-    for (int i = 0; i < 3; i++) {
-        printf("%d ", vetor[i]);
+    printf("\nINSERTION SORT\n");
+    start = clock();
+    numComp = insertionSort(vetor, tamVetor);
+    end = clock();
+    imprimirStatus(start, end, numComp);
+    idxBusca = verificarOrdemNaoCrescente(vetor, tamVetor);
+    if (idxBusca != -1) {
+        printf("\nVETOR DESORDENADO\n");
+        printf("%d > %d\n", vetor[idxBusca], vetor[idxBusca+1]);
     }
-    */
-
     
 
 

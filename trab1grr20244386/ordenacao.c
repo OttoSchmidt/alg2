@@ -80,9 +80,25 @@ ssize_t buscaBinariaRec(int vetor[], size_t tam, int valor,
     return buscaBinariaRecReal(vetor, 0, tam - 1, valor, numComparacoes);
 }
 
+void trocarElementos (int vetor[], size_t i, size_t j) {
+    size_t temp = vetor[i];
+    vetor[i] = vetor[j];
+    vetor[j] = temp;
+}
+
 uint64_t insertionSort(int vetor[], size_t tam) {
-    vetor[0] = 99;
-    return -1;
+    uint64_t numComparacoes = 0;
+
+    for (size_t i = 1; i < tam; i++) {
+        for (size_t j = i; j > 0; j--) {
+            numComparacoes++;
+            if (vetor[j] < vetor[j-1]) {
+                trocarElementos(vetor, j, j-1);
+            }
+        }
+    }
+    
+    return numComparacoes;
 }
 
 uint64_t insertionSortRec(int vetor[], size_t tam) {
