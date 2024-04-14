@@ -1,0 +1,20 @@
+input: 2147483640
+
+Trabalho de Otto Schmidt
+GRR 20244386
+
+BUSCA SEQUENCIAL
+Tempo total: 4.831477
+Comparacoes: 2147483633
+
+BUSCA BINARIA
+Tempo total: 0.000002
+Comparacoes: 55
+
+BUSCA BINÁRIA RECURSIVA
+Tempo total: 0.000001
+Comparacoes: 55
+
+MERGE SORT
+Tempo total: 577.301026
+Comparacoes: 33285996308

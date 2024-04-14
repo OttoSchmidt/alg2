@@ -112,7 +112,7 @@ int main() {
 
     vetor = (int*) realloc(vetor, tamVetor * sizeof(int));
 
-*/
+
     //gerando vetor organizado de forma não crescente
     gerarVetorNaoCrescente(vetor, tamVetor);
 
@@ -126,7 +126,7 @@ int main() {
         printf("\nVETOR DESORDENADO\n");
         printf("%d (i = %ld) > %d (i = %ld)\n", vetor[idxBusca], idxBusca, vetor[idxBusca+1], idxBusca+1);
     }
-    /*
+
     //gerando vetor organizado de forma não crescente
     gerarVetorNaoCrescente(vetor, tamVetor);
 
@@ -140,7 +140,7 @@ int main() {
         printf("\nVETOR DESORDENADO\n");
         printf("%d (i = %ld) > %d (i = %ld)\n", vetor[idxBusca], idxBusca, vetor[idxBusca+1], idxBusca+1);
     }
-*/
+
     //gerando vetor organizado de forma não crescente
     gerarVetorNaoCrescente(vetor, tamVetor);
 
@@ -154,7 +154,7 @@ int main() {
         printf("\nVETOR DESORDENADO\n");
         printf("%d (i = %ld) > %d (i = %ld)\n", vetor[idxBusca], idxBusca, vetor[idxBusca+1], idxBusca+1);
     }
-/*
+
     //gerando vetor organizado de forma não crescente
     gerarVetorNaoCrescente(vetor, tamVetor);
 
