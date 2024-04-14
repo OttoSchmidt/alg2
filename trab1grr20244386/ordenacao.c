@@ -2,6 +2,7 @@
 
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 void getNome(char nome[]) {
     strncpy(nome, "Otto Schmidt", MAX_CHAR_NOME);
@@ -157,7 +158,62 @@ uint64_t selectionSortRec(int vetor[], size_t tam) {
     return numComp + selectionSortRec(vetor, tam-1);
 }
 
-uint64_t mergeSort(int vetor[], size_t tam) {
-    vetor[0] = 99;
-    return -1;
+void trocarElementosVetor(int vetorDest[], int vetorOrigem[], size_t a, size_t b) {
+    for (size_t i = a; i <= b; i++) {
+        vetorDest[i] = vetorOrigem[i];
+    }
+}
+
+uint64_t mergeSortRecursivo(int vetor[], int vetorTemp[], size_t a, size_t b) {
+    uint64_t numComp = 0;
+    size_t metade, idxEsquerdo, idxDireito;
+
+    if (a >= b) return 0;
+
+    metade = (a+b)/2;
+
+    numComp += mergeSortRecursivo(vetor, vetorTemp, a, metade);
+    numComp += mergeSortRecursivo(vetor, vetorTemp, metade+1, b);
+
+    idxEsquerdo = a;
+    idxDireito = metade+1;
+
+    for (size_t i = a; i <= b; i++) {
+        if (idxEsquerdo > metade) {
+            vetorTemp[i] = vetor[idxDireito];
+            idxDireito++;
+        } else if (idxDireito > b) {
+            vetorTemp[i] = vetor[idxEsquerdo];
+            idxEsquerdo++;
+        } else if (vetor[idxEsquerdo] < vetor[idxDireito]) {
+            numComp++;
+            vetorTemp[i] = vetor[idxEsquerdo];
+            idxEsquerdo++;
+        } else {
+            numComp++;
+            vetorTemp[i] = vetor[idxDireito];
+            idxDireito++;
+        }
+    }
+
+    trocarElementosVetor(vetor, vetorTemp, a, b);
+
+    return numComp;
+}
+
+uint64_t mergeSortRec(int vetor[], size_t tam) {
+    uint64_t numComp;
+    int *vetorTemp;
+    
+    vetorTemp = calloc(tam, sizeof(int));
+    if (vetor == NULL) {
+        printf("Falha fatal.\n");
+        return 0;
+    }
+
+    numComp = mergeSortRecursivo(vetor, vetorTemp, 0, tam-1);
+
+    free(vetorTemp);
+
+    return numComp;
 }
