@@ -1,0 +1,34 @@
+Trabalho de Otto Schmidt
+GRR 20244386
+
+BUSCA SEQUENCIAL
+Tempo total: 0.000594
+Comparacoes: 99993
+
+BUSCA BINARIA
+Tempo total: 0.000002
+Comparacoes: 33
+
+BUSCA BINÁRIA RECURSIVA
+Tempo total: 0.000002
+Comparacoes: 33
+
+INSERTION SORT ITERATIVO
+Tempo total: 30.938649
+Comparacoes: 4999950000
+
+INSERTION SORT RECURSIVO
+Tempo total: 56.164476
+Comparacoes: 4999950000
+
+SELECTION SORT ITERATIVO
+Tempo total: 11.815597
+Comparacoes: 4999950000
+
+SELECTION SORT RECURSIVO
+Tempo total: 11.819748
+Comparacoes: 4999950000
+
+MERGE SORT
+Tempo total: 0.011932
+Comparacoes: 815024
