@@ -123,7 +123,7 @@ int main() {
     idxBusca = verificarOrdemNaoCrescente(vetor, tamVetor);
     if (idxBusca != -1) {
         printf("\nVETOR DESORDENADO\n");
-        printf("%d > %d\n", vetor[idxBusca], vetor[idxBusca+1]);
+        printf("%d (i = %ld) > %d (i = %ld)\n", vetor[idxBusca], idxBusca, vetor[idxBusca+1], idxBusca+1);
     }
     
     //gerando vetor organizado de forma não crescente
@@ -137,7 +137,36 @@ int main() {
     idxBusca = verificarOrdemNaoCrescente(vetor, tamVetor);
     if (idxBusca != -1) {
         printf("\nVETOR DESORDENADO\n");
-        printf("%d > %d\n", vetor[idxBusca], vetor[idxBusca+1]);
+        printf("%d (i = %ld) > %d (i = %ld)\n", vetor[idxBusca], idxBusca, vetor[idxBusca+1], idxBusca+1);
+    }
+
+
+    //gerando vetor organizado de forma não crescente
+    gerarVetorNaoCrescente(vetor, tamVetor);
+
+    printf("\nSELECTION SORT ITERATIVO\n");
+    start = clock();
+    numComp = selectionSort(vetor, tamVetor);
+    end = clock();
+    imprimirStatus(start, end, numComp);
+    idxBusca = verificarOrdemNaoCrescente(vetor, tamVetor);
+    if (idxBusca != -1) {
+        printf("\nVETOR DESORDENADO\n");
+        printf("%d (i = %ld) > %d (i = %ld)\n", vetor[idxBusca], idxBusca, vetor[idxBusca+1], idxBusca+1);
+    }
+
+    //gerando vetor organizado de forma não crescente
+    gerarVetorNaoCrescente(vetor, tamVetor);
+
+    printf("\nSELECTION SORT RECURSIVO\n");
+    start = clock();
+    numComp = selectionSortRec(vetor, tamVetor);
+    end = clock();
+    imprimirStatus(start, end, numComp);
+    idxBusca = verificarOrdemNaoCrescente(vetor, tamVetor);
+    if (idxBusca != -1) {
+        printf("\nVETOR DESORDENADO\n");
+        printf("%d (i = %ld) > %d (i = %ld)\n", vetor[idxBusca], idxBusca, vetor[idxBusca+1], idxBusca+1);
     }
 
     free(vetor);

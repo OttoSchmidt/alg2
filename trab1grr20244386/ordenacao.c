@@ -119,13 +119,42 @@ uint64_t insertionSortRec(int vetor[], size_t tam) {
 }
 
 uint64_t selectionSort(int vetor[], size_t tam) {
-    vetor[0] = 99;
-    return -1;
+    size_t idxMenor;
+    uint64_t numComp = 0;
+
+    for (size_t i = 0; i < tam; i++) {
+        idxMenor = i;
+
+        for (size_t j = i+1; j < tam; j++) {
+            numComp++;
+            if (vetor[j] < vetor[idxMenor]) {
+                idxMenor = j;
+            }
+        }
+
+        trocarElementos(vetor, i, idxMenor);
+    }
+
+    return numComp;
 }
 
 uint64_t selectionSortRec(int vetor[], size_t tam) {
-    vetor[0] = 99;
-    return -1;
+    size_t idxMaior, idxAtual = tam - 1;
+    uint64_t numComp = 0;
+
+    if (tam <= 1) return 0;
+
+    idxMaior = idxAtual;
+    for (ssize_t i = idxAtual - 1; i >= 0; i--) {
+        numComp++;
+        if (vetor[i] > vetor[idxMaior]) {
+            idxMaior = i;
+        }
+    }
+
+    trocarElementos(vetor, idxAtual, idxMaior);
+
+    return numComp + selectionSortRec(vetor, tam-1);
 }
 
 uint64_t mergeSort(int vetor[], size_t tam) {
