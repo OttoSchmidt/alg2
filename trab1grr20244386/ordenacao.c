@@ -102,8 +102,20 @@ uint64_t insertionSort(int vetor[], size_t tam) {
 }
 
 uint64_t insertionSortRec(int vetor[], size_t tam) {
-    vetor[0] = 99;
-    return -1;
+    uint64_t numComp = 0;
+	
+	if (tam <= 1) return 0;
+	
+	numComp = insertionSortRec(vetor, tam-1);
+	
+	for (int i = tam-1; i > 0; i--) {
+        numComp++;
+		if (vetor[i-1] > vetor[i]) {
+			trocarElementos(vetor, i, i-1);
+		}
+	}
+
+	return numComp;
 }
 
 uint64_t selectionSort(int vetor[], size_t tam) {

@@ -115,7 +115,7 @@ int main() {
     //gerando vetor organizado de forma não crescente
     gerarVetorNaoCrescente(vetor, tamVetor);
 
-    printf("\nINSERTION SORT\n");
+    printf("\nINSERTION SORT ITERATIVO\n");
     start = clock();
     numComp = insertionSort(vetor, tamVetor);
     end = clock();
@@ -126,7 +126,19 @@ int main() {
         printf("%d > %d\n", vetor[idxBusca], vetor[idxBusca+1]);
     }
     
+    //gerando vetor organizado de forma não crescente
+    gerarVetorNaoCrescente(vetor, tamVetor);
 
+    printf("\nINSERTION SORT RECURSIVO\n");
+    start = clock();
+    numComp = insertionSortRec(vetor, tamVetor);
+    end = clock();
+    imprimirStatus(start, end, numComp);
+    idxBusca = verificarOrdemNaoCrescente(vetor, tamVetor);
+    if (idxBusca != -1) {
+        printf("\nVETOR DESORDENADO\n");
+        printf("%d > %d\n", vetor[idxBusca], vetor[idxBusca+1]);
+    }
 
     free(vetor);
 
