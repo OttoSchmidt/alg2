@@ -55,7 +55,7 @@ int main() {
         return 1;
     }
 
-    //gerando vetor organizado
+    //gerando vetor organizado de maneira não decrescente
     for (size_t i = 0; i < tamVetor; i++) {
         vetor[i] = i + 1;
     }
@@ -64,7 +64,7 @@ int main() {
     printf("Trabalho de %s\n", nome);
     printf("GRR %u\n", getGRR());
 
-    int valorBuscar = 8;
+    int valorBuscar = 10;
 
     printf("\nBUSCA SEQUENCIAL\n");
     numComp = 0;
@@ -72,21 +72,20 @@ int main() {
     idxBusca = buscaSequencial(vetor, tamVetor, valorBuscar, &numComp);
     end = clock();
     imprimirStatus(start, end, numComp);
-    if (!verificarExistencia(vetor, valorBuscar, idxBusca)) {
+    if (idxBusca != -1 && !verificarExistencia(vetor, valorBuscar, idxBusca)) {
         printf("VALOR ERRADO: %zd (%d)\n", idxBusca, vetor[idxBusca]);
     }
 
-    /* NÃO FUNCIONA EM VETORES MUITO GRANDES    
+    // NÃO FUNCIONA EM VETORES MUITO GRANDES    
     printf("\nBUSCA SEQUENCIAL RECURSIVA\n");
     numComp = 0;
     start = clock();
     idxBusca = buscaSequencialRec(vetor, tamVetor, valorBuscar, &numComp);
     end = clock();
     imprimirStatus(start, end, numComp);
-    if (!verificarExistencia(vetor, valorBuscar, idxBusca)) {
+    if (idxBusca != -1 && !verificarExistencia(vetor, valorBuscar, idxBusca)) {
         printf("VALOR ERRADO: %zd (%d)\n", idxBusca, vetor[idxBusca]);
     }
-    */
 
     printf("\nBUSCA BINARIA\n");
     numComp = 0;
@@ -94,7 +93,7 @@ int main() {
     idxBusca = buscaBinaria(vetor, tamVetor, valorBuscar, &numComp);
     end = clock();
     imprimirStatus(start, end, numComp);
-    if (!verificarExistencia(vetor, valorBuscar, idxBusca)) {
+    if (idxBusca != -1 && !verificarExistencia(vetor, valorBuscar, idxBusca)) {
         printf("VALOR ERRADO: %zd (%d)\n", idxBusca, vetor[idxBusca]);
     }
 
@@ -104,14 +103,12 @@ int main() {
     idxBusca = buscaBinariaRec(vetor, tamVetor, valorBuscar, &numComp);
     end = clock();
     imprimirStatus(start, end, numComp);
-    if (!verificarExistencia(vetor, valorBuscar, idxBusca)) {
+    if (idxBusca != -1 && !verificarExistencia(vetor, valorBuscar, idxBusca)) {
         printf("VALOR ERRADO: %zd (%d)\n", idxBusca, vetor[idxBusca]);
     }
-/*
+
     tamVetor = 10000;
-
     vetor = (int*) realloc(vetor, tamVetor * sizeof(int));
-
 
     //gerando vetor organizado de forma não crescente
     gerarVetorNaoCrescente(vetor, tamVetor);
@@ -167,7 +164,7 @@ int main() {
     if (idxBusca != -1) {
         printf("\nVETOR DESORDENADO\n");
         printf("%d (i = %ld) > %d (i = %ld)\n", vetor[idxBusca], idxBusca, vetor[idxBusca+1], idxBusca+1);
-    }*/
+    }
 
     //gerando vetor organizado de forma não crescente
     gerarVetorNaoCrescente(vetor, tamVetor);

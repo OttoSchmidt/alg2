@@ -14,7 +14,7 @@ uint32_t getGRR() { return 20244386; }
 ssize_t buscaSequencial(int vetor[], size_t tam, int valor,
                         uint64_t* numComparacoes) {
 
-    for (size_t i = tam - 1; i > 0; i--) {
+    for (size_t i = tam - 1; i >= 0; i--) {
         *numComparacoes += 1;
         
         if (vetor[i] == valor) {
@@ -37,20 +37,20 @@ ssize_t buscaSequencialRec(int vetor[], size_t tam, int valor,
 
 ssize_t buscaBinaria(int vetor[], size_t tam, int valor,
                     uint64_t* numComparacoes) {
-    size_t pivot, head = 0, tail = tam - 1;
+    size_t pivot, a = 0, b = tam - 1;
 
-    while (head <= tail) {
-        pivot = (head + tail + 1)/2;
+    while (a <= b) {
+        pivot = a + (b - a)/2;
 
         if (vetor[pivot] == valor) {
             *numComparacoes += 1;        
             return pivot;
         } else if (vetor[pivot] < valor) {
             *numComparacoes += 2;
-            head = pivot + 1;
+            a = pivot + 1;
         } else {
             *numComparacoes += 2;
-            tail = pivot - 1;
+            b = pivot - 1;
         }
     } 
 
@@ -62,7 +62,7 @@ ssize_t buscaBinariaRecReal(int vetor[], size_t a, size_t b, int valor, uint64_t
 
     if (a > b) return -1;
 
-    pivot = (a + b + 1)/2;
+    pivot = a + (b - a)/2;
 
     if (vetor[pivot] == valor) {
         *numComparacoes += 1;
@@ -70,10 +70,10 @@ ssize_t buscaBinariaRecReal(int vetor[], size_t a, size_t b, int valor, uint64_t
     } else if (vetor[pivot] < valor) {
         *numComparacoes += 2;
         return buscaBinariaRecReal(vetor, pivot + 1, b, valor, numComparacoes);
+    } else {
+        *numComparacoes += 2;
+        return buscaBinariaRecReal(vetor, a, pivot - 1, valor, numComparacoes);
     }
-
-    *numComparacoes += 2;
-    return buscaBinariaRecReal(vetor, a, pivot - 1, valor, numComparacoes);
 }
 
 ssize_t buscaBinariaRec(int vetor[], size_t tam, int valor,
