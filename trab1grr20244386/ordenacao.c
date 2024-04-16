@@ -56,7 +56,7 @@ ssize_t buscaBinariaAuxiliar(int vetor[], ssize_t a, ssize_t b,
 
     while (a <= b) {
         pivot = (a+b)/2;
-
+        
         *numComparacoes += 1;
         if (valor < vetor[pivot]) {
             b = pivot - 1;
@@ -106,33 +106,32 @@ ssize_t buscaBinariaRec(int vetor[], size_t tam, int valor,
 }
 
 uint64_t insertionSort(int vetor[], size_t tam) {
-    uint64_t numComparacoes = 0;
+    uint64_t numComp = 0;
+    size_t localDest;
 
     for (size_t i = 1; i < tam; i++) {
-        for (size_t j = i; j > 0; j--) {
-            numComparacoes++;
-            if (vetor[j] < vetor[j-1]) {
-                trocarElementos(vetor, j, j-1);
-            }
+        localDest = buscaBinaria(vetor, i+1, vetor[i], &numComp);
+
+        for (ssize_t j = i; j > localDest+1; j--) {
+            trocarElementos(vetor, j, j-1);
         }
     }
     
-    return numComparacoes;
+    return numComp;
 }
 
 uint64_t insertionSortRec(int vetor[], size_t tam) {
     uint64_t numComp = 0;
+    ssize_t localDest;
 	
 	if (tam <= 1) return 0;
 	
 	numComp = insertionSortRec(vetor, tam-1);
 	
-	for (int i = tam-1; i > 0; i--) {
-        numComp++;
-		if (vetor[i-1] > vetor[i]) {
-			trocarElementos(vetor, i, i-1);
-		}
-	}
+	localDest = buscaBinaria(vetor, tam, vetor[tam-1], &numComp);
+    for (ssize_t j = tam-1; j > localDest+1; j--) {
+        trocarElementos(vetor, j, j-1);
+    }
 
 	return numComp;
 }
