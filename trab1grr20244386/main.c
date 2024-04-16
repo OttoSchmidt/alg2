@@ -6,34 +6,12 @@
 #include <time.h>
 
 #include "ordenacao.h"
-
-int verificarExistencia (int vetor[], int num, size_t local) {
-    if (vetor[local] == num) {
-        return 1;
-    }
-
-    return 0;
-}
-
-void imprimirVetor (int vetor[], size_t tam) {
-    for (size_t i = 0; i < tam; i++) {
-        printf("[%d] ", vetor[i]);
-    }
-    printf("\n");
-}
+#include "auxiliar.h"
 
 void gerarVetorNaoCrescente (int vetor[], size_t tam) {
     for (size_t i = 0; i < tam; i++) {
         vetor[i] = tam - i;
     }
-}
-
-size_t verificarOrdemNaoCrescente (int vetor[], size_t tam) {
-    for (size_t i = 0; i < tam - 1; i++) {
-        if (vetor[i] > vetor[i+1]) return i;
-    }
-
-    return -1;
 }
 
 void imprimirStatus (clock_t start, clock_t end, uint64_t numComparacoes) {
@@ -71,6 +49,7 @@ int main() {
     start = clock();
     idxBusca = buscaSequencial(vetor, tamVetor, valorBuscar, &numComp);
     end = clock();
+    printf("%ld\n", idxBusca);
     imprimirStatus(start, end, numComp);
     if (idxBusca != -1 && !verificarExistencia(vetor, valorBuscar, idxBusca)) {
         printf("VALOR ERRADO: %zd (%d)\n", idxBusca, vetor[idxBusca]);
@@ -82,6 +61,7 @@ int main() {
     start = clock();
     idxBusca = buscaSequencialRec(vetor, tamVetor, valorBuscar, &numComp);
     end = clock();
+    printf("%ld\n", idxBusca);
     imprimirStatus(start, end, numComp);
     if (idxBusca != -1 && !verificarExistencia(vetor, valorBuscar, idxBusca)) {
         printf("VALOR ERRADO: %zd (%d)\n", idxBusca, vetor[idxBusca]);
@@ -92,6 +72,7 @@ int main() {
     start = clock();
     idxBusca = buscaBinaria(vetor, tamVetor, valorBuscar, &numComp);
     end = clock();
+    printf("%ld\n", idxBusca);
     imprimirStatus(start, end, numComp);
     if (idxBusca != -1 && !verificarExistencia(vetor, valorBuscar, idxBusca)) {
         printf("VALOR ERRADO: %zd (%d)\n", idxBusca, vetor[idxBusca]);
@@ -102,6 +83,7 @@ int main() {
     start = clock();
     idxBusca = buscaBinariaRec(vetor, tamVetor, valorBuscar, &numComp);
     end = clock();
+    printf("%ld\n", idxBusca);
     imprimirStatus(start, end, numComp);
     if (idxBusca != -1 && !verificarExistencia(vetor, valorBuscar, idxBusca)) {
         printf("VALOR ERRADO: %zd (%d)\n", idxBusca, vetor[idxBusca]);

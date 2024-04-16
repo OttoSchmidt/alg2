@@ -1,4 +1,5 @@
 #include "ordenacao.h"
+#include "auxiliar.h"
 
 #include <string.h>
 #include <stdio.h>
@@ -13,78 +14,95 @@ uint32_t getGRR() { return 20244386; }
 
 ssize_t buscaSequencial(int vetor[], size_t tam, int valor,
                         uint64_t* numComparacoes) {
-
-    for (size_t i = tam - 1; i >= 0; i--) {
+    ssize_t retorno = -1;
+    for (ssize_t i = tam - 1; i >= 0; i--) {
         *numComparacoes += 1;
         
-        if (vetor[i] == valor) {
-            return i;
+        if (vetor[i] <= valor) {
+            retorno = i;
+            break;
         }
     }
 
+    if (retorno >= 0 && verificarExistencia(vetor, valor, retorno)) {
+        return retorno;
+    }
     return -1;
+}
+
+ssize_t buscaSequencialRecAuxiliar(int vetor[], size_t a, size_t b,
+                            int valor, uint64_t *numComparacoes) {
+    if (a > b) return a-1;
+
+    *numComparacoes += 1;
+    if (vetor[b] <= valor) return b;
+
+    return buscaSequencialRecAuxiliar(vetor, 0, b - 1, valor, numComparacoes);
 }
 
 ssize_t buscaSequencialRec(int vetor[], size_t tam, int valor,
                             uint64_t* numComparacoes) {
-    if (tam < 1) return -1;
+    ssize_t retorno = buscaSequencialRecAuxiliar(vetor, 0, tam-1, valor, numComparacoes);
 
-    *numComparacoes += 1;
-    if (vetor[tam - 1] == valor) return tam - 1;
+    if (retorno == -1 || verificarExistencia(vetor, valor, retorno) != 1) {
+        return -1;
+    }
+    return retorno;
+}
 
-    return buscaSequencialRec(vetor, tam - 1, valor, numComparacoes);
+ssize_t buscaBinariaAuxiliar(int vetor[], ssize_t a, ssize_t b,
+                    int valor, uint64_t *numComparacoes) {
+    size_t pivot;
+
+    while (a <= b) {
+        pivot = (a+b)/2;
+
+        *numComparacoes += 1;
+        if (valor < vetor[pivot]) {
+            b = pivot - 1;
+        } else {
+            a = pivot + 1;
+        }
+    }    
+
+    return a-1;
 }
 
 ssize_t buscaBinaria(int vetor[], size_t tam, int valor,
                     uint64_t* numComparacoes) {
-    size_t pivot, a = 0, b = tam - 1;
+    ssize_t retorno = buscaBinariaAuxiliar(vetor, 0, tam-1, valor, numComparacoes);
 
-    while (a <= b) {
-        pivot = a + (b - a)/2;
-
-        if (vetor[pivot] == valor) {
-            *numComparacoes += 1;        
-            return pivot;
-        } else if (vetor[pivot] < valor) {
-            *numComparacoes += 2;
-            a = pivot + 1;
-        } else {
-            *numComparacoes += 2;
-            b = pivot - 1;
-        }
-    } 
-
-    return -1;
+    if (retorno == -1 || verificarExistencia(vetor, valor, retorno) != 1) {
+        return -1;
+    }
+    return retorno;
 }
 
-ssize_t buscaBinariaRecursiva(int vetor[], size_t a, size_t b, int valor, uint64_t* numComparacoes) {
+ssize_t buscaBinariaRecAuxiliar(int vetor[], ssize_t a, ssize_t b, 
+                        int valor, uint64_t* numComparacoes) {
     size_t pivot;
 
-    if (a > b) return -1;
+    if (a > b) return a-1;
 
-    pivot = a + (b - a)/2;
+    pivot = (a+b)/2;
 
-    if (vetor[pivot] == valor) {
+    if (vetor[pivot] <= valor) {
         *numComparacoes += 1;
-        return pivot;
-    } else if (vetor[pivot] < valor) {
-        *numComparacoes += 2;
-        return buscaBinariaRecursiva(vetor, pivot + 1, b, valor, numComparacoes);
+        return buscaBinariaRecAuxiliar(vetor, pivot + 1, b, valor, numComparacoes);
     } else {
-        *numComparacoes += 2;
-        return buscaBinariaRecursiva(vetor, a, pivot - 1, valor, numComparacoes);
+        *numComparacoes += 1;
+        return buscaBinariaRecAuxiliar(vetor, a, pivot - 1, valor, numComparacoes);
     }
 }
 
 ssize_t buscaBinariaRec(int vetor[], size_t tam, int valor,
                         uint64_t* numComparacoes) {
-    return buscaBinariaRecursiva(vetor, 0, tam - 1, valor, numComparacoes);
-}
+    size_t retorno = buscaBinariaRecAuxiliar(vetor, 0, tam - 1, valor, numComparacoes);
 
-void trocarElementos (int vetor[], size_t i, size_t j) {
-    size_t temp = vetor[i];
-    vetor[i] = vetor[j];
-    vetor[j] = temp;
+    if (retorno == -1 || verificarExistencia(vetor, valor, retorno) != 1) {
+        return -1;
+    }
+    return retorno;
 }
 
 uint64_t insertionSort(int vetor[], size_t tam) {
@@ -156,12 +174,6 @@ uint64_t selectionSortRec(int vetor[], size_t tam) {
     trocarElementos(vetor, idxAtual, idxMaior);
 
     return numComp + selectionSortRec(vetor, tam-1);
-}
-
-void trocarElementosVetor(int vetorDest[], int vetorOrigem[], size_t a, size_t b) {
-    for (size_t i = a; i <= b; i++) {
-        vetorDest[i] = vetorOrigem[i];
-    }
 }
 
 uint64_t mergeSortRecursivo(int vetor[], int vetorTemp[], size_t a, size_t b) {
