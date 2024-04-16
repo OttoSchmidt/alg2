@@ -57,7 +57,7 @@ ssize_t buscaBinaria(int vetor[], size_t tam, int valor,
     return -1;
 }
 
-ssize_t buscaBinariaRecReal(int vetor[], size_t a, size_t b, int valor, uint64_t* numComparacoes) {
+ssize_t buscaBinariaRecursiva(int vetor[], size_t a, size_t b, int valor, uint64_t* numComparacoes) {
     size_t pivot;
 
     if (a > b) return -1;
@@ -69,16 +69,16 @@ ssize_t buscaBinariaRecReal(int vetor[], size_t a, size_t b, int valor, uint64_t
         return pivot;
     } else if (vetor[pivot] < valor) {
         *numComparacoes += 2;
-        return buscaBinariaRecReal(vetor, pivot + 1, b, valor, numComparacoes);
+        return buscaBinariaRecursiva(vetor, pivot + 1, b, valor, numComparacoes);
     } else {
         *numComparacoes += 2;
-        return buscaBinariaRecReal(vetor, a, pivot - 1, valor, numComparacoes);
+        return buscaBinariaRecursiva(vetor, a, pivot - 1, valor, numComparacoes);
     }
 }
 
 ssize_t buscaBinariaRec(int vetor[], size_t tam, int valor,
                         uint64_t* numComparacoes) {
-    return buscaBinariaRecReal(vetor, 0, tam - 1, valor, numComparacoes);
+    return buscaBinariaRecursiva(vetor, 0, tam - 1, valor, numComparacoes);
 }
 
 void trocarElementos (int vetor[], size_t i, size_t j) {
