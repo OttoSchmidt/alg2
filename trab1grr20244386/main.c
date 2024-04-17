@@ -107,9 +107,9 @@ int testeBusca (size_t tamVetor, int incremento, int numTestes, int valorBuscar)
 int testeOrdenacao (size_t tamVetor, int incremento, int numTestes) {
     uint64_t numComp;
     clock_t start, end;
+    double total;
     
-    FILE *file;
-    file = fopen("testes_ordenacao.csv", "w");
+    FILE *file = fopen("testes_ordenacao.csv", "w");
     if (!file) {
         printf("Falha ao abrir arquivo\n");
         return 2;
@@ -117,7 +117,7 @@ int testeOrdenacao (size_t tamVetor, int incremento, int numTestes) {
 
     fprintf(file, "Quant. Elementos;Insertion Sort Comp;Insertion Sort Tempo;Insertion Sort Rec Comp;Insertion Sort Rec Tempo;Selection Sort Comp;Selection Sort Tempo;Selection Sort Rec Comp;Selection Sort Rec Tempo;Merge Sort Rec Comp;Merge Sort Rec Tempo;\n");
 
-    int* vetor = malloc(tamVetor * sizeof(int));
+    int *vetor = malloc(tamVetor * sizeof(int));
     if (vetor == NULL) {
         fclose(file);
         printf("Falha fatal. Impossível alocar memoria.\n");
@@ -135,7 +135,10 @@ int testeOrdenacao (size_t tamVetor, int incremento, int numTestes) {
         numComp = insertionSort(vetor, tamVetor);
         end = clock();
 
-        fprintf(file, "%ld;%lf;", numComp, ((double)end - start) / CLOCKS_PER_SEC);
+        total = ((double)end - start) / CLOCKS_PER_SEC;
+        printf("\n(%ld %ld)/%ld = %lf\n", end, start, CLOCKS_PER_SEC, total);
+        
+        fprintf(file, "%ld;%lf;", numComp, total);
 
         if (tamVetor <= 100000) {
             gerarVetorNaoCrescente(vetor, tamVetor);
@@ -175,6 +178,9 @@ int testeOrdenacao (size_t tamVetor, int incremento, int numTestes) {
         numComp = mergeSortRec(vetor, tamVetor);
         end = clock();
 
+        total = ((double)end - start) / CLOCKS_PER_SEC;
+        printf("\n(%ld %ld)/%ld = %lf\n", end, start, CLOCKS_PER_SEC, total);
+
         fprintf(file, "%ld;%lf;\n", numComp, ((double)end - start) / CLOCKS_PER_SEC);
         
         tamVetor += incremento;
@@ -185,9 +191,7 @@ int testeOrdenacao (size_t tamVetor, int incremento, int numTestes) {
             return 1;
         }
 
-        for (size_t i = 0; i < tamVetor; i++) {
-            vetor[i] = i + 1;
-        }
+        gerarVetorNaoCrescente(vetor, tamVetor);
 
         printf("Concluido.\n");
 
@@ -204,7 +208,10 @@ int main() {
     char nome[MAX_CHAR_NOME];
     size_t tamVetor;
 
-    int numTestes = 20, incremento;
+    int numTestes, incremento;
+
+    printf("Quant. testes: ");
+    scanf("%d", &numTestes);
 
     printf("Incremento: ");
     scanf("%d", &incremento);
@@ -219,6 +226,33 @@ int main() {
     //testeBusca(tamVetor, incremento, numTestes, valorBuscar);
 
     testeOrdenacao(tamVetor, incremento, numTestes);
+/*
+    int* vetor = malloc(tamVetor * sizeof(int));
+    if (vetor == NULL) {
+        printf("Falha fatal. Impossível alocar memoria.\n");
+        return 1;
+    }
 
+    gerarVetorNaoCrescente(vetor, tamVetor);
+
+    clock_t start, end;
+    double total;
+    int statusVetor;
+
+    start = clock();
+    insertionSort(vetor, tamVetor);
+    end = clock();
+    total = ((double)end - start) / CLOCKS_PER_SEC;
+    printf("%lf\n", total);
+    
+    statusVetor = verificarOrdemNaoCrescente(vetor, tamVetor);
+    if (statusVetor == -1) {
+        printf("VETOR ORDENADO\n");
+    } else {
+        printf("VETOR NAO ORDENADO EM %d\n", statusVetor);
+    }
+
+    free(vetor);
+*/
     return 0;
 }

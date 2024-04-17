@@ -122,14 +122,14 @@ uint64_t insertionSort(int vetor[], size_t tam) {
 
 uint64_t insertionSortRec(int vetor[], size_t tam) {
     uint64_t numComp = 0;
-    ssize_t localDest;
+    ssize_t localDest, idxFinal = tam - 1;
 	
-	if (tam <= 1) return 0;
+	if (idxFinal <= 0) return 0;
 	
-	numComp = insertionSortRec(vetor, tam-1);
+	numComp = insertionSortRec(vetor, idxFinal);
 	
-	localDest = buscaBinaria(vetor, tam, vetor[tam-1], &numComp);
-    for (ssize_t j = tam-1; j > localDest+1; j--) {
+	localDest = buscaBinaria(vetor, tam, vetor[idxFinal], &numComp);
+    for (ssize_t j = idxFinal; j > localDest+1; j--) {
         trocarElementos(vetor, j, j-1);
     }
 
