@@ -20,8 +20,8 @@ funcao insertionSort (v, a, b)
     insertion(v, a, b)
     retorne
 
-funcao inserir (v, a, b)
-    p = buscar(v[b], v, a, b)
+funcao insertion (v, a, b)
+    p = buscaBinaria(v[b], v, a, b)
     i = b
     enquanto i > p+1
         trocar(v, i, i-1)
@@ -31,7 +31,7 @@ funcao inserir (v, a, b)
 funcao selectionSort (v, a, b)
     se a >= b
         retorne
-    trocar(v, a, min(v, a, b))
+    trocar(v, a, minimo(v, a, b))
     selectionSort(v, a+1, b)
     retorne
 
