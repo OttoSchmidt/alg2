@@ -1,0 +1,3 @@
+- Utilizar -Wall e -Wextra quando compilar para verificar warnings
+- Não utilizar calloc se malloc estiver disponível
+- Artigo mais formal

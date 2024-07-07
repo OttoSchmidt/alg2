@@ -1,0 +1,21 @@
+call plug#begin('~/.vim/plugged')
+
+"Fugitive Vim Github
+Plug 'tpope/vim-fugitive'
+
+"Autocompletion
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+"Auto close 
+Plug 'cohama/lexima.vim'
+
+"Show working files/directory
+Plug 'scrooloose/nerdtree'
+
+call plug#end()
+
+nnoremap <leader>n :NERDTreeFocus<CR>
+nnoremap <C-n> :NERDTree<CR>
+nnoremap <C-t> :NERDTreeToggle<CR>
+nnoremap <C-f> :NERDTreeFind<CR>
+
