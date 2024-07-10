@@ -106,7 +106,10 @@ uint64_t mergeSortSR (int vetor[], size_t tam) {
 }
 
 uint64_t quickSortSR (int vetor[], size_t tam) {
-    vetor[0] = 99;
+    if (tam <= 1) return 0;
+
+    
+
     return -1;
 }
 
