@@ -4,12 +4,18 @@
 
 #include "ordenacao.h"
 
+void testeMerge() {}
+
+void testeQuick() {}
+
+void testeHeap() {}
+
 int main() {
     char nome[MAX_CHAR];
     int numComp;
 
     int tamVetor = 3;
-    int* vetor = (int*)malloc(tamVetor * sizeof(int));
+    int *vetor = (int*) malloc(tamVetor * sizeof(int));
     if (vetor == NULL) {
         printf("Falha fatal. Impossível alocar memoria.");
         return 1;
