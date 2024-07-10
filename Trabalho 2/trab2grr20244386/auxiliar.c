@@ -10,13 +10,13 @@ int verificarExistencia (int vetor[], int valor, size_t local) {
     return 0;
 }
 
-void trocar (int *i, int *j) {
-    int temp = *i;
-    *i = *j;
-    *j = temp;
+void trocarElemento (int *vetor, size_t i, size_t j) {
+    int temp = vetor[i];
+    vetor[i] = vetor[j];
+    vetor[j] = temp;
 }
 
-void trocarElementosVetor(int vetorDest[], int vetorOrigem[], size_t a, size_t b) {
+void trocarElementosVetor (int vetorDest[], int vetorOrigem[], size_t a, size_t b) {
     for (size_t i = a; i <= b; i++) {
         vetorDest[i] = vetorOrigem[i];
     }

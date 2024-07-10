@@ -1,6 +1,9 @@
 #include "ordenacao.h"
 #include "auxiliar.h"
+
 #include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 void getNome (char nome[]) {
     strncpy(nome, "Otto Schmidt", MAX_CHAR);
@@ -12,7 +15,7 @@ uint32_t getGRR () { return 20244386; }
 void mergeSortOrdenacao (int vetor[], int vetorTemp[], size_t a, size_t b, uint64_t *numComparacoes) {
     size_t metade, idxEsquerdo, idxDireito;
 
-    if (a >= b) return 0;
+    if (a >= b) return;
 
     metade = (a+b)/2;
 
@@ -65,13 +68,13 @@ size_t separarQuickSort (int vetor[], size_t a, size_t b, uint64_t *numComparaco
 
 	for (size_t i = a; i < b; i++) {
 		if (vetor[i] <= pivo) {
-			trocar(&m, &i);
+			trocarElemento(vetor, m, i);
 			m++;
 		}
 		(*numComparacoes)++;
 	}
 
-	trocar(&m, &b);
+	trocarElemento(vetor, m, b);
 	
 	return m;
 }
@@ -79,9 +82,9 @@ size_t separarQuickSort (int vetor[], size_t a, size_t b, uint64_t *numComparaco
 void quickSortOrdernar (int vetor[], ssize_t a, ssize_t b, uint64_t *numComparacoes) {
 	if (a >= b) return;
 	
-	size_t m = separar(v, a, b, numComparacoes);	
-	quickSort(vetor, a, m-1, numComparacoes);
-	quickSort(vetor, m+1, b, numComparacoes);
+	size_t m = separarQuickSort(vetor, a, b, numComparacoes);	
+	quickSortOrdernar(vetor, a, m-1, numComparacoes);
+	quickSortOrdernar(vetor, m+1, b, numComparacoes);
 }
 
 uint64_t quickSort (int vetor[], size_t tam) {
