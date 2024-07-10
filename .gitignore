@@ -1,5 +1,4 @@
 *.o
-trab*
 *.out
 .vscode
 .vscode/*
