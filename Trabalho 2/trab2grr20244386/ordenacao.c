@@ -175,6 +175,14 @@ uint64_t quickSortSR(int vetor[], size_t tam)
 
 uint64_t heapSortSR(int vetor[], size_t tam)
 {
-    vetor[0] = 99;
-    return -1;
+    uint64_t numComparacoes = 0;
+
+    createMaxHeap(vetor, tam, &numComparacoes);
+    for (size_t i = tam - 1; i > 0; i--)
+    {
+        trocarElemento(vetor, 0, i);
+        maxHeapify(vetor, 0, i - 1, &numComparacoes);
+    }
+
+    return numComparacoes;
 }
