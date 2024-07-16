@@ -35,25 +35,14 @@ size_t push(pilha_t *pilha, int elem)
     return pilha->tamanho;
 }
 
-size_t pop(pilha_t *pilha, int *elem)
+int pop(pilha_t *pilha)
 {
     if (pilhaVazia(pilha))
         return -1;
 
-    *elem = pilha->elementos[pilha->tamanho - 1];
     pilha->tamanho--;
 
-    return pilha->tamanho;
-}
-
-size_t topoPilha(pilha_t *pilha, int *elem)
-{
-    if (pilhaVazia(pilha))
-        return -1;
-
-    *elem = pilha->elementos[pilha->tamanho - 1];
-
-    return pilha->tamanho;
+    return pilha->elementos[pilha->tamanho - 1];
 }
 
 bool pilhaVazia(pilha_t *pilha)
@@ -71,7 +60,6 @@ size_t tamanhoPilha(pilha_t *pilha)
     return pilha->tamanho;
 }
 
-// Imprime o conteúdo da pilha, do topo à base (opcional, mas útil para testes)
 void imprimirPilha(pilha_t *pilha)
 {
     printf("PILHA:\n");
