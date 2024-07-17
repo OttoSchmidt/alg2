@@ -24,13 +24,9 @@ void destruirPilha(pilha_t *pilha);
 // Retorno: número de elementos na pilha após a operação ou -1 se falhar
 size_t push(pilha_t *pilha, int elem);
 
-// Retira o elemento do topo da pilha (politica LIFO) e o devolve
-// Retorno: número de elementos na pilha após a operação ou -1 se falhar
-size_t pop(pilha_t *pilha, int *elem);
-
-// devolve o elemento no topo da pilha, sem removê-lo
-// Retorno: número de elementos na pilha após a operação ou -1 se falhar
-size_t topoPilha(pilha_t *pilha, int *elem);
+// Retira o elemento do topo da pilha (politica LIFO)
+// Retorno: o último elemento a ser inserido na pilha
+int pop(pilha_t *pilha);
 
 // Testa se a pilha está vazia
 // Retorno: 1 se a pilha está vazia ou 0 caso contrário

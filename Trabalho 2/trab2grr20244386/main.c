@@ -3,20 +3,46 @@
 #include <time.h>
 
 #include "ordenacao.h"
-#include "pilha.h"
+#include "auxiliar.h"
 
 void testeMerge() {}
 
 void testeQuick() {}
 
-void testeHeap() {}
+void testeHeap(int *vetor, size_t tam) {
+	uint64_t numComp = 0;
+	ssize_t resultado;
+	
+	printf("HEAP SORT RECURSIVO\n");
+
+	gerarOrdemNaoCrescente(vetor, tam);
+	numComp = heapSort(vetor, tam);
+	printf("Num. comparacoes: %ld\n", numComp);
+
+	resultado = verificarOrdenacao(vetor, tam);
+	if (resultado != -1) {
+		printf("ERRO AO ORDERNAR ELEMENTO %ld\n", resultado);
+		imprimirSecaoVetor(vetor, tam, (size_t)resultado);
+	}
+
+	printf("HEAP SORT ITERATIVO\n");
+
+	gerarOrdemNaoCrescente(vetor, tam);
+	numComp = heapSortSR(vetor, tam);
+	printf("Num. comparacoes: %ld\n", numComp);
+	
+	resultado = verificarOrdenacao(vetor, tam);
+	if (resultado != -1) {
+		printf("ERRO AO ORDERNAR ELEMENTO %ld\n", resultado);
+		imprimirSecaoVetor(vetor, tam, (size_t)resultado);
+	}
+}
 
 int main()
 {
   char nome[MAX_CHAR];
-  int numComp;
 
-  int tamVetor = 3;
+  size_t tamVetor = 1000;
   int *vetor = (int *)malloc(tamVetor * sizeof(int));
   if (vetor == NULL)
   {
@@ -24,26 +50,11 @@ int main()
     return 1;
   }
 
-  vetor[0] = 1;
-  vetor[1] = 10;
-  vetor[2] = 12;
-
   getNome(nome);
   printf("Trabalho de %s\n", nome);
   printf("GRR %u\n", getGRR());
 
-  numComp = mergeSort(vetor, 3);
-  printf("NumComp: %d\n", numComp);
-  numComp = quickSort(vetor, 3);
-  printf("NumComp: %d\n", numComp);
-  numComp = heapSort(vetor, 3);
-  printf("NumComp: %d\n", numComp);
-  numComp = mergeSortSR(vetor, 3);
-  printf("NumComp: %d\n", numComp);
-  numComp = quickSortSR(vetor, 3);
-  printf("NumComp: %d\n", numComp);
-  numComp = heapSortSR(vetor, 3);
-  printf("NumComp: %d\n", numComp);
+  testeHeap(vetor, tamVetor);
 
   free(vetor);
 
