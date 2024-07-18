@@ -5,9 +5,56 @@
 #include "ordenacao.h"
 #include "auxiliar.h"
 
-void testeMerge() {}
+void testeMergeSort(int *vetor, size_t tam)
+{
+	uint64_t numComp = 0;
+	ssize_t resultado;
 
-void testeQuick() {}
+	printf("MERGE SORT RECURSIVO\n");
+
+	gerarOrdemNaoCrescente(vetor, tam);
+	numComp = mergeSort(vetor, tam);
+	printf("Num. comparacoes: %ld\n", numComp);
+
+	resultado = verificarOrdenacao(vetor, tam);
+	if (resultado != -1)
+	{
+		printf("ERRO AO ORDERNAR ELEMENTO %ld\n", resultado);
+		imprimirSecaoVetor(vetor, tam, (size_t)resultado);
+	}
+}
+
+void testeQuickSort(int *vetor, size_t tam)
+{
+	uint64_t numComp = 0;
+	ssize_t resultado;
+
+	printf("QUICK SORT RECURSIVO\n");
+
+	gerarOrdemNaoCrescente(vetor, tam);
+	numComp = quickSort(vetor, tam);
+	printf("Num. comparacoes: %ld\n", numComp);
+
+	resultado = verificarOrdenacao(vetor, tam);
+	if (resultado != -1)
+	{
+		printf("ERRO AO ORDERNAR ELEMENTO %ld\n", resultado);
+		imprimirSecaoVetor(vetor, tam, (size_t)resultado);
+	}
+
+	printf("QUICK SORT ITERATIVO\n");
+
+	gerarOrdemNaoCrescente(vetor, tam);
+	numComp = quickSortSR(vetor, tam);
+	printf("Num. comparacoes: %ld\n", numComp);
+
+	resultado = verificarOrdenacao(vetor, tam);
+	if (resultado != -1)
+	{
+		printf("ERRO AO ORDERNAR ELEMENTO %ld\n", resultado);
+		imprimirSecaoVetor(vetor, tam, (size_t)resultado);
+	}
+}
 
 void testeHeapSort(int *vetor, size_t tam)
 {
@@ -27,7 +74,7 @@ void testeHeapSort(int *vetor, size_t tam)
 		imprimirSecaoVetor(vetor, tam, (size_t)resultado);
 	}
 
-	printf("\nHEAP SORT ITERATIVO\n");
+	printf("HEAP SORT ITERATIVO\n");
 
 	gerarOrdemNaoCrescente(vetor, tam);
 	numComp = heapSortSR(vetor, tam);
@@ -49,7 +96,13 @@ int main()
 	size_t tamVetor;
 	int *vetor;
 
+	getNome(nome);
+	printf("Trabalho de %s\n", nome);
+	printf("GRR %u\n\n", getGRR());
+
+	printf("Insira o tamanho do vetor inicial: ");
 	scanf("%ld", &tamVetor);
+	printf("\n");
 
 	vetor = (int *)malloc(tamVetor * sizeof(int));
 	if (vetor == NULL)
@@ -58,11 +111,9 @@ int main()
 		return 1;
 	}
 
-	getNome(nome);
-	printf("Trabalho de %s\n", nome);
-	printf("GRR %u\n\n", getGRR());
-
-	testeHeapSort(vetor, tamVetor);
+	// testeMergeSort(vetor, tamVetor);
+	testeQuickSort(vetor, tamVetor);
+	// testeHeapSort(vetor, tamVetor);
 
 	free(vetor);
 

@@ -21,12 +21,11 @@ pilha_t *criarPilha(size_t capacidade);
 void destruirPilha(pilha_t *pilha);
 
 // Insere o elemento no topo da pilha (politica LIFO)
-// Retorno: número de elementos na pilha após a operação ou -1 se falhar
-size_t push(pilha_t *pilha, int elem);
+void empilhar(pilha_t *pilha, int elem);
 
 // Retira o elemento do topo da pilha (politica LIFO)
-// Retorno: o último elemento a ser inserido na pilha
-int pop(pilha_t *pilha);
+// Retorno: elemento retirado
+int desempilhar(pilha_t *pilha);
 
 // Testa se a pilha está vazia
 // Retorno: 1 se a pilha está vazia ou 0 caso contrário

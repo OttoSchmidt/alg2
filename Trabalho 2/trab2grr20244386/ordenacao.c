@@ -194,23 +194,23 @@ uint64_t mergeSortSR(int vetor[], size_t tam)
         return 0;
     }
 
-    push(pilha, a);
-    push(pilha, b);
+    empilhar(pilha, a);
+    empilhar(pilha, b);
 
     while (!pilhaVazia(pilha))
     {
-        b = pop(pilha);
-        a = pop(pilha);
+        b = desempilhar(pilha);
+        a = desempilhar(pilha);
 
         if (a >= b)
             continue;
 
         metade = (a + b) / 2;
 
-        push(pilha, a);
-        push(pilha, metade);
-        push(pilha, metade + 1);
-        push(pilha, b);
+        empilhar(pilha, a);
+        empilhar(pilha, metade);
+        empilhar(pilha, metade + 1);
+        empilhar(pilha, b);
 
         idxEsquerdo = a;
         idxDireito = metade + 1;
@@ -255,25 +255,25 @@ uint64_t quickSortSR(int vetor[], size_t tam)
 {
     uint64_t numComparacoes = 0;
     pilha_t *pilha;
-    size_t a = 0, b = tam - 1, pivo;
+    ssize_t a = 0, b = tam, pivo;
 
     pilha = criarPilha(STACK_SIZE);
 
-    push(pilha, a);
-    push(pilha, b);
+    empilhar(pilha, a);
+    empilhar(pilha, b);
 
     while (!pilhaVazia(pilha))
     {
-        b = pop(pilha);
-        a = pop(pilha);
+        b = desempilhar(pilha);
+        a = desempilhar(pilha);
 
-        if (a < b)
+        if (b > a && b > 0)
         {
             pivo = separarQuickSort(vetor, a, b, &numComparacoes);
-            push(pilha, a);
-            push(pilha, pivo - 1);
-            push(pilha, pivo + 1);
-            push(pilha, b);
+            empilhar(pilha, a);
+            empilhar(pilha, pivo - 1);
+            empilhar(pilha, pivo + 1);
+            empilhar(pilha, b);
         }
     }
 

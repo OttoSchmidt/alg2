@@ -10,7 +10,10 @@ pilha_t *criarPilha(size_t capacidade)
     pilha->elementos = (int *)malloc(capacidade * sizeof(int));
 
     if (pilha->elementos == NULL)
+    {
+        printf("Erro ao alocar memória para a pilha.\n");
         return NULL;
+    }
 
     pilha->tamanho = 0;
     pilha->capacidade = capacidade;
@@ -24,25 +27,23 @@ void destruirPilha(pilha_t *pilha)
     free(pilha);
 }
 
-size_t push(pilha_t *pilha, int elem)
+void empilhar(pilha_t *pilha, int elem)
 {
     if (pilhaCheia(pilha))
-        return -1;
+        return;
 
     pilha->elementos[pilha->tamanho] = elem;
     pilha->tamanho++;
-
-    return pilha->tamanho;
 }
 
-int pop(pilha_t *pilha)
+int desempilhar(pilha_t *pilha)
 {
     if (pilhaVazia(pilha))
         return -1;
 
     pilha->tamanho--;
 
-    return pilha->elementos[pilha->tamanho - 1];
+    return pilha->elementos[pilha->tamanho];
 }
 
 bool pilhaVazia(pilha_t *pilha)
