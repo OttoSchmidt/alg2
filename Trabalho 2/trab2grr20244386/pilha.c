@@ -3,11 +3,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-pilha_t *criarPilha(size_t capacidade)
+pilha_t *criarPilha()
 {
+    const size_t TAM_PILHA = 1048576;
     pilha_t *pilha = (pilha_t *)malloc(1 * sizeof(pilha_t));
 
-    pilha->elementos = (int *)malloc(capacidade * sizeof(int));
+    pilha->elementos = (int *)malloc(TAM_PILHA * sizeof(int));
 
     if (pilha->elementos == NULL)
     {
@@ -16,7 +17,7 @@ pilha_t *criarPilha(size_t capacidade)
     }
 
     pilha->tamanho = 0;
-    pilha->capacidade = capacidade;
+    pilha->capacidade = TAM_PILHA;
 
     return pilha;
 }

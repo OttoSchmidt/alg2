@@ -13,9 +13,9 @@ typedef struct
   size_t tamanho;
 } pilha_t;
 
-// Cria uma pilha vazia de inteiros com a capacidade informada
+// Cria uma pilha vazia de inteiros com a capacidade máxima definida na função
 // Retorno: ponteiro p/ a pilha ou NULL se falhar
-pilha_t *criarPilha(size_t capacidade);
+pilha_t *criarPilha();
 
 // Remove todos os elementos da pilha, libera espaço
 void destruirPilha(pilha_t *pilha);

@@ -6,8 +6,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define STACK_SIZE 1048576
-
 void getNome(char nome[])
 {
     strncpy(nome, "Otto Schmidt", MAX_CHAR);
@@ -185,7 +183,7 @@ uint64_t mergeSortSR(int vetor[], size_t tam)
     if (tam <= 1)
         return 0;
 
-    pilha = criarPilha(STACK_SIZE);
+    pilha = criarPilha();
 
     vetorTemp = (int *)malloc(tam * sizeof(int));
     if (vetorTemp == NULL)
@@ -257,7 +255,7 @@ uint64_t quickSortSR(int vetor[], size_t tam)
     pilha_t *pilha;
     ssize_t a = 0, b = tam, pivo;
 
-    pilha = criarPilha(STACK_SIZE);
+    pilha = criarPilha();
 
     empilhar(pilha, a);
     empilhar(pilha, b);

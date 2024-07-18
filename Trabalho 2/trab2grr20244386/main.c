@@ -111,9 +111,9 @@ int main()
 		return 1;
 	}
 
-	// testeMergeSort(vetor, tamVetor);
+	testeMergeSort(vetor, tamVetor);
 	testeQuickSort(vetor, tamVetor);
-	// testeHeapSort(vetor, tamVetor);
+	testeHeapSort(vetor, tamVetor);
 
 	free(vetor);
 
