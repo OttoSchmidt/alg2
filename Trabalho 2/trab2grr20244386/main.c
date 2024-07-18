@@ -9,12 +9,12 @@ void testeMerge() {}
 
 void testeQuick() {}
 
-void testeHeap(int *vetor, size_t tam)
+void testeHeapSort(int *vetor, size_t tam)
 {
 	uint64_t numComp = 0;
 	ssize_t resultado;
 
-	/*printf("HEAP SORT RECURSIVO\n");
+	printf("HEAP SORT RECURSIVO\n");
 
 	gerarOrdemNaoCrescente(vetor, tam);
 	numComp = heapSort(vetor, tam);
@@ -25,7 +25,7 @@ void testeHeap(int *vetor, size_t tam)
 	{
 		printf("ERRO AO ORDERNAR ELEMENTO %ld\n", resultado);
 		imprimirSecaoVetor(vetor, tam, (size_t)resultado);
-	}*/
+	}
 
 	printf("\nHEAP SORT ITERATIVO\n");
 
@@ -39,10 +39,6 @@ void testeHeap(int *vetor, size_t tam)
 		printf("ERRO AO ORDERNAR ELEMENTO %ld\n", resultado);
 		imprimirSecaoVetor(vetor, tam, (size_t)resultado);
 		imprimirVetor(vetor, tam);
-	}
-	else
-	{
-		printf("TUDO CERTO\n");
 	}
 }
 
@@ -64,9 +60,9 @@ int main()
 
 	getNome(nome);
 	printf("Trabalho de %s\n", nome);
-	printf("GRR %u\n", getGRR());
+	printf("GRR %u\n\n", getGRR());
 
-	testeHeap(vetor, tamVetor);
+	testeHeapSort(vetor, tamVetor);
 
 	free(vetor);
 

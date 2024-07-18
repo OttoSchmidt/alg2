@@ -123,17 +123,23 @@ void maxHeapify(int vetor[], size_t n, size_t tam, uint64_t *numComparacoes)
     size_t esquerdo = 2 * n + 1;
     size_t direito = 2 * n + 2;
 
-    if (esquerdo < tam && vetor[esquerdo] > vetor[maior])
+    if (esquerdo < tam)
     {
-        maior = esquerdo;
+        (*numComparacoes)++;
+        if (vetor[esquerdo] > vetor[maior])
+        {
+            maior = esquerdo;
+        }
     }
-    (*numComparacoes)++;
 
-    if (direito < tam && vetor[direito] > vetor[maior])
+    if (direito < tam)
     {
-        maior = direito;
+        (*numComparacoes)++;
+        if (vetor[direito] > vetor[maior])
+        {
+            maior = direito;
+        }
     }
-    (*numComparacoes)++;
 
     if (maior != n)
     {
@@ -142,24 +148,29 @@ void maxHeapify(int vetor[], size_t n, size_t tam, uint64_t *numComparacoes)
     }
 }
 
-void heapSortAuxiliar(int vetor[], size_t b, uint64_t numComparacoes)
+void heapSortAuxiliar(int vetor[], ssize_t tam, uint64_t *numComparacoes)
 {
-    if (b <= 0)
+    if (tam <= 1)
         return;
 
-    trocarElemento(vetor, 0, b);
-    maxHeapify(vetor, 0, b - 1, &numComparacoes);
+    tam--;
 
-    heapSortAuxiliar(vetor, b - 1, numComparacoes);
+    trocarElemento(vetor, 0, tam);
+    maxHeapify(vetor, 0, tam, numComparacoes);
+
+    heapSortAuxiliar(vetor, tam, numComparacoes);
 }
 
 uint64_t heapSort(int vetor[], size_t tam)
 {
     uint64_t numComparacoes = 0;
 
-    createMaxHeap(vetor, tam, &numComparacoes);
+    for (ssize_t i = tam / 2 - 1; i >= 0; i--)
+    {
+        maxHeapify(vetor, i, tam, &numComparacoes);
+    }
 
-    heapSortAuxiliar(vetor, tam - 1, numComparacoes);
+    heapSortAuxiliar(vetor, tam, &numComparacoes);
 
     return numComparacoes;
 }
@@ -271,21 +282,58 @@ uint64_t quickSortSR(int vetor[], size_t tam)
     return numComparacoes;
 }
 
+void maxHeapifySR(int vetor[], size_t n, size_t tam, uint64_t *numComparacoes)
+{
+    size_t maior, esquerdo, direito;
+
+    while (true)
+    {
+        maior = n;
+        esquerdo = 2 * n + 1;
+        direito = 2 * n + 2;
+
+        if (esquerdo < tam)
+        {
+            if (vetor[esquerdo] > vetor[maior])
+            {
+                maior = esquerdo;
+            }
+            (*numComparacoes)++;
+        }
+
+        if (direito < tam)
+        {
+            if (vetor[direito] > vetor[maior])
+            {
+                maior = direito;
+            }
+            (*numComparacoes)++;
+        }
+
+        if (maior == n)
+        {
+            break;
+        }
+
+        trocarElemento(vetor, n, maior);
+        n = maior;
+    }
+}
+
 uint64_t heapSortSR(int vetor[], size_t tam)
 {
     uint64_t numComparacoes = 0;
 
-    // criar maxheap
     for (ssize_t i = tam / 2 - 1; i >= 0; i--)
     {
-        maxHeapify(vetor, i, tam, numComparacoes);
+        maxHeapifySR(vetor, i, tam, &numComparacoes);
     }
 
     // heapsort
     for (size_t i = tam - 1; i > 0; i--)
     {
         trocarElemento(vetor, 0, i);
-        maxHeapify(vetor, 0, i, &numComparacoes);
+        maxHeapifySR(vetor, 0, i, &numComparacoes);
     }
 
     return numComparacoes;
