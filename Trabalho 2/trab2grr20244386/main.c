@@ -50,8 +50,10 @@ int main()
 {
 	char nome[MAX_CHAR];
 
-	size_t tamVetor = 5;
+	size_t tamVetor;
 	int *vetor;
+
+	scanf("%ld", &tamVetor);
 
 	vetor = (int *)malloc(tamVetor * sizeof(int));
 	if (vetor == NULL)

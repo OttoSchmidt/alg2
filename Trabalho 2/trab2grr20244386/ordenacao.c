@@ -142,14 +142,6 @@ void maxHeapify(int vetor[], size_t n, size_t tam, uint64_t *numComparacoes)
     }
 }
 
-void createMaxHeap(int vetor[], size_t tam, uint64_t *numComparacoes)
-{
-    for (ssize_t i = (tam - 1) / 2; i >= 0; i--)
-    {
-        maxHeapify(vetor, i, tam, numComparacoes);
-    }
-}
-
 void heapSortAuxiliar(int vetor[], size_t b, uint64_t numComparacoes)
 {
     if (b <= 0)
@@ -283,17 +275,17 @@ uint64_t heapSortSR(int vetor[], size_t tam)
 {
     uint64_t numComparacoes = 0;
 
-    createMaxHeap(vetor, tam, &numComparacoes);
-    for (size_t i = tam - 1; i >= 1; i--)
+    // criar maxheap
+    for (ssize_t i = tam / 2 - 1; i >= 0; i--)
     {
-        printf("HEAP %d:\n", i);
-        for (size_t i = 0; i < tam; i++)
-        {
-            printf("%d ", vetor[i]);
-        }
-        printf("\n");
+        maxHeapify(vetor, i, tam, numComparacoes);
+    }
+
+    // heapsort
+    for (size_t i = tam - 1; i > 0; i--)
+    {
         trocarElemento(vetor, 0, i);
-        maxHeapify(vetor, 0, i - 1, &numComparacoes);
+        maxHeapify(vetor, 0, i, &numComparacoes);
     }
 
     return numComparacoes;
