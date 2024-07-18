@@ -8,17 +8,20 @@
 
 #define STACK_SIZE 1048576
 
-void getNome (char nome[]) {
+void getNome(char nome[])
+{
     strncpy(nome, "Otto Schmidt", MAX_CHAR);
     nome[MAX_CHAR - 1] = '\0';
 }
 
-uint32_t getGRR () { return 20244386; }
+uint32_t getGRR() { return 20244386; }
 
-void mergeSortAuxiliar (int vetor[], int vetorTemp[], size_t a, size_t b, uint64_t *numComparacoes) {
+void mergeSortAuxiliar(int vetor[], int vetorTemp[], size_t a, size_t b, uint64_t *numComparacoes)
+{
     size_t metade, idxEsquerdo, idxDireito;
 
-    if (a >= b) return;
+    if (a >= b)
+        return;
 
     metade = (a + b) / 2;
 
@@ -28,18 +31,26 @@ void mergeSortAuxiliar (int vetor[], int vetorTemp[], size_t a, size_t b, uint64
     idxEsquerdo = a;
     idxDireito = metade + 1;
 
-    for (size_t i = a; i <= b; i++) {
-        if (idxEsquerdo > metade) {
+    for (size_t i = a; i <= b; i++)
+    {
+        if (idxEsquerdo > metade)
+        {
             vetorTemp[i] = vetor[idxDireito];
             idxDireito++;
-        } else if (idxDireito > b) {
+        }
+        else if (idxDireito > b)
+        {
             vetorTemp[i] = vetor[idxEsquerdo];
             idxEsquerdo++;
-        } else if (vetor[idxEsquerdo] < vetor[idxDireito]) {
+        }
+        else if (vetor[idxEsquerdo] < vetor[idxDireito])
+        {
             (*numComparacoes)++;
             vetorTemp[i] = vetor[idxEsquerdo];
             idxEsquerdo++;
-        } else {
+        }
+        else
+        {
             (*numComparacoes)++;
             vetorTemp[i] = vetor[idxDireito];
             idxDireito++;
@@ -49,11 +60,13 @@ void mergeSortAuxiliar (int vetor[], int vetorTemp[], size_t a, size_t b, uint64
     trocarElementosVetor(vetor, vetorTemp, a, b);
 }
 
-uint64_t mergeSort (int vetor[], size_t tam) {
+uint64_t mergeSort(int vetor[], size_t tam)
+{
     uint64_t numComparacoes = 0;
 
-    int *vetorTemp = (int*) malloc(tam * sizeof(int));
-    if (vetorTemp == NULL) {
+    int *vetorTemp = (int *)malloc(tam * sizeof(int));
+    if (vetorTemp == NULL)
+    {
         printf("Falha fatal.\n");
         return 0;
     }
@@ -65,12 +78,15 @@ uint64_t mergeSort (int vetor[], size_t tam) {
     return numComparacoes;
 }
 
-size_t separarQuickSort(int vetor[], size_t a, size_t b, uint64_t *numComparacoes) {
+size_t separarQuickSort(int vetor[], size_t a, size_t b, uint64_t *numComparacoes)
+{
     int pivo = vetor[b];
     size_t m = a;
 
-    for (size_t i = a; i < b; i++) {
-        if (vetor[i] <= pivo) {
+    for (size_t i = a; i < b; i++)
+    {
+        if (vetor[i] <= pivo)
+        {
             trocarElemento(vetor, m, i);
             m++;
         }
@@ -82,15 +98,18 @@ size_t separarQuickSort(int vetor[], size_t a, size_t b, uint64_t *numComparacoe
     return m;
 }
 
-void quickSortAuxiliar(int vetor[], ssize_t a, ssize_t b, uint64_t *numComparacoes) {
-    if (a >= b) return;
+void quickSortAuxiliar(int vetor[], ssize_t a, ssize_t b, uint64_t *numComparacoes)
+{
+    if (a >= b)
+        return;
 
     size_t m = separarQuickSort(vetor, a, b, numComparacoes);
     quickSortAuxiliar(vetor, a, m - 1, numComparacoes);
     quickSortAuxiliar(vetor, m + 1, b, numComparacoes);
 }
 
-uint64_t quickSort (int vetor[], size_t tam) {
+uint64_t quickSort(int vetor[], size_t tam)
+{
     uint64_t numComparacoes = 0;
 
     quickSortAuxiliar(vetor, 0, tam, &numComparacoes);
@@ -98,62 +117,76 @@ uint64_t quickSort (int vetor[], size_t tam) {
     return numComparacoes;
 }
 
-void maxHeapify (int vetor[], size_t n, size_t tam, uint64_t *numComparacoes) {
+void maxHeapify(int vetor[], size_t n, size_t tam, uint64_t *numComparacoes)
+{
     size_t maior = n;
     size_t esquerdo = 2 * n + 1;
     size_t direito = 2 * n + 2;
 
-    if (esquerdo < tam && vetor[esquerdo] > vetor[maior] && ++(*numComparacoes)) {
+    if (esquerdo < tam && vetor[esquerdo] > vetor[maior])
+    {
         maior = esquerdo;
     }
+    (*numComparacoes)++;
 
-    if (direito < tam && vetor[direito] > vetor[maior] && ++(*numComparacoes)) {
+    if (direito < tam && vetor[direito] > vetor[maior])
+    {
         maior = direito;
     }
+    (*numComparacoes)++;
 
-    if (maior != n) {
+    if (maior != n)
+    {
         trocarElemento(vetor, n, maior);
         maxHeapify(vetor, maior, tam, numComparacoes);
     }
 }
 
-void createMaxHeap (int vetor[], size_t tam, uint64_t *numComparacoes) {
-    for (ssize_t i = tam / 2; i >= 0; i--) {
+void createMaxHeap(int vetor[], size_t tam, uint64_t *numComparacoes)
+{
+    for (ssize_t i = (tam - 1) / 2; i >= 0; i--)
+    {
         maxHeapify(vetor, i, tam, numComparacoes);
     }
 }
 
-void heapSortAuxiliar (int vetor[], size_t b, uint64_t numComparacoes) {
-    if (b <= 0) return;
+void heapSortAuxiliar(int vetor[], size_t b, uint64_t numComparacoes)
+{
+    if (b <= 0)
+        return;
 
     trocarElemento(vetor, 0, b);
     maxHeapify(vetor, 0, b - 1, &numComparacoes);
-    
+
     heapSortAuxiliar(vetor, b - 1, numComparacoes);
 }
 
-uint64_t heapSort (int vetor[], size_t tam) {
+uint64_t heapSort(int vetor[], size_t tam)
+{
     uint64_t numComparacoes = 0;
 
     createMaxHeap(vetor, tam, &numComparacoes);
 
-    heapSortAuxiliar(vetor, tam-1, numComparacoes);
-    
+    heapSortAuxiliar(vetor, tam - 1, numComparacoes);
+
     return numComparacoes;
 }
 
-uint64_t mergeSortSR (int vetor[], size_t tam) {
+uint64_t mergeSortSR(int vetor[], size_t tam)
+{
     uint64_t numComparacoes = 0;
-    size_t metade, idxEsquerdo, idxDireito, a = 0, b = tam-1;
+    size_t metade, idxEsquerdo, idxDireito, a = 0, b = tam - 1;
     pilha_t *pilha;
     int *vetorTemp = NULL;
-    
-    if (tam <= 1) return 0;
+
+    if (tam <= 1)
+        return 0;
 
     pilha = criarPilha(STACK_SIZE);
 
-    vetorTemp = (int*) malloc(tam * sizeof(int));
-    if (vetorTemp == NULL) {
+    vetorTemp = (int *)malloc(tam * sizeof(int));
+    if (vetorTemp == NULL)
+    {
         printf("Falha fatal.\n");
         return 0;
     }
@@ -161,41 +194,51 @@ uint64_t mergeSortSR (int vetor[], size_t tam) {
     push(pilha, a);
     push(pilha, b);
 
-    while (!pilhaVazia(pilha)) {
+    while (!pilhaVazia(pilha))
+    {
         b = pop(pilha);
         a = pop(pilha);
 
-        if (a >= b) continue;
-        
+        if (a >= b)
+            continue;
+
         metade = (a + b) / 2;
 
         push(pilha, a);
         push(pilha, metade);
-        push(pilha, metade+1);
+        push(pilha, metade + 1);
         push(pilha, b);
-        
+
         idxEsquerdo = a;
         idxDireito = metade + 1;
-        
-        for (size_t i = a; i <= b; i++) {
-            if (idxEsquerdo > metade) {
+
+        for (size_t i = a; i <= b; i++)
+        {
+            if (idxEsquerdo > metade)
+            {
                 vetorTemp[i] = vetor[idxDireito];
                 idxDireito++;
-            } else if (idxDireito > b) {
+            }
+            else if (idxDireito > b)
+            {
                 vetorTemp[i] = vetor[idxEsquerdo];
                 idxEsquerdo++;
-            } else if (vetor[idxEsquerdo] < vetor[idxDireito]) {
+            }
+            else if (vetor[idxEsquerdo] < vetor[idxDireito])
+            {
                 numComparacoes++;
                 vetorTemp[i] = vetor[idxEsquerdo];
                 idxEsquerdo++;
-            } else {
+            }
+            else
+            {
                 numComparacoes++;
                 vetorTemp[i] = vetor[idxDireito];
                 idxDireito++;
             }
         }
 
-        trocarElementosVetor(vetor, vetorTemp, a, b);        
+        trocarElementosVetor(vetor, vetorTemp, a, b);
     }
 
     free(vetorTemp);
@@ -205,7 +248,8 @@ uint64_t mergeSortSR (int vetor[], size_t tam) {
     return numComparacoes;
 }
 
-uint64_t quickSortSR(int vetor[], size_t tam) {
+uint64_t quickSortSR(int vetor[], size_t tam)
+{
     uint64_t numComparacoes = 0;
     pilha_t *pilha;
     size_t a = 0, b = tam - 1, pivo;
@@ -215,15 +259,17 @@ uint64_t quickSortSR(int vetor[], size_t tam) {
     push(pilha, a);
     push(pilha, b);
 
-    while (!pilhaVazia(pilha)) {
+    while (!pilhaVazia(pilha))
+    {
         b = pop(pilha);
         a = pop(pilha);
 
-        if (a < b) {
+        if (a < b)
+        {
             pivo = separarQuickSort(vetor, a, b, &numComparacoes);
             push(pilha, a);
-            push(pilha, pivo-1);
-            push(pilha, pivo+1);
+            push(pilha, pivo - 1);
+            push(pilha, pivo + 1);
             push(pilha, b);
         }
     }
@@ -233,11 +279,19 @@ uint64_t quickSortSR(int vetor[], size_t tam) {
     return numComparacoes;
 }
 
-uint64_t heapSortSR(int vetor[], size_t tam) {
+uint64_t heapSortSR(int vetor[], size_t tam)
+{
     uint64_t numComparacoes = 0;
 
     createMaxHeap(vetor, tam, &numComparacoes);
-    for (size_t i = tam - 1; i > 0; i--) {
+    for (size_t i = tam - 1; i >= 1; i--)
+    {
+        printf("HEAP %d:\n", i);
+        for (size_t i = 0; i < tam; i++)
+        {
+            printf("%d ", vetor[i]);
+        }
+        printf("\n");
         trocarElemento(vetor, 0, i);
         maxHeapify(vetor, 0, i - 1, &numComparacoes);
     }
