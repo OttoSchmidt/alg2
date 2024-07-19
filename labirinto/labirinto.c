@@ -14,15 +14,26 @@
 
 void imprimirLabirinto(int labirinto[][N]);
 void lerLabirinto(int labirinto[][N], int *linInicio, int *colInicio, int *linFim, int *colFim);
-void resolverLabirinto(int labirinto[][N], int linha, int coluna, int linFim, int colFim);
+void resolverLabirinto(int labirinto[][N], int linha, int coluna, int linFim, int colFim, int movimentos, int *menorMovimentos, bool *resolvido, int resposta[][N]);
 
 int main()
 {
-	int labirinto[M][N];
-	int linhaInicio, colInicio, linhaFim, colFim;
+	int labirinto[M][N], melhorResposta[M][N];
+	int linhaInicio, colInicio, linhaFim, colFim, quantMovimentos = 0;
+	bool resolvido = false;
 	lerLabirinto(labirinto, &linhaInicio, &colInicio, &linhaFim, &colFim);
-	imprimirLabirinto(labirinto);
-	resolverLabirinto(labirinto, linhaInicio, colInicio, linhaFim, colFim);
+	resolverLabirinto(labirinto, linhaInicio, colInicio, linhaFim, colFim, 0, &quantMovimentos, &resolvido, melhorResposta);
+
+	if (!resolvido)
+	{
+		printf("Labirinto sem solucao\n");
+		imprimirLabirinto(labirinto);
+	}
+	else
+	{
+		printf("\nMenor quantidade de movimentos: %d\n\n", quantMovimentos);
+		imprimirLabirinto(melhorResposta);
+	}
 
 	return 0;
 }
@@ -47,15 +58,27 @@ void imprimirLabirinto(int labirinto[][N])
 	}
 }
 
-void resolverLabirinto(int labirinto[][N], int linha, int coluna, int linFim, int colFim)
+void copiarLabirinto(int destino[][N], int origem[][N])
+{
+	for (int i = 0; i < M; i++)
+		for (int j = 0; j < N; j++)
+			destino[i][j] = origem[i][j];
+}
+
+void resolverLabirinto(int labirinto[][N], int linha, int coluna, int linFim, int colFim, int movimentos, int *menorMovimentos, bool *resolvido, int resposta[][N])
 {
 	bool caminho[4] = {false}; // 0 - cima, 1 - direita, 2 - baixo, 3 - esquerda
 	int quantCaminhos = 0;
 
 	if (linha == linFim && coluna == colFim)
 	{
-		printf("RESOLVIDO\n");
-		imprimirLabirinto(labirinto);
+		if (!(*resolvido) || (movimentos < *menorMovimentos))
+		{
+			*menorMovimentos = movimentos;
+			copiarLabirinto(resposta, labirinto);
+		}
+
+		*resolvido = true;
 		return;
 	}
 
@@ -90,27 +113,35 @@ void resolverLabirinto(int labirinto[][N], int linha, int coluna, int linFim, in
 	{
 		if (caminho[0])
 		{
+			movimentos++;
 			labirinto[linha - 1][coluna] = PASSOU;
-			resolverLabirinto(labirinto, linha - 1, coluna, linFim, colFim);
+			resolverLabirinto(labirinto, linha - 1, coluna, linFim, colFim, movimentos, menorMovimentos, resolvido, resposta);
 			labirinto[linha - 1][coluna] = PASSAGEM;
+			movimentos--;
 		}
 		if (caminho[1])
 		{
+			movimentos++;
 			labirinto[linha][coluna + 1] = PASSOU;
-			resolverLabirinto(labirinto, linha, coluna + 1, linFim, colFim);
+			resolverLabirinto(labirinto, linha, coluna + 1, linFim, colFim, movimentos, menorMovimentos, resolvido, resposta);
 			labirinto[linha][coluna + 1] = PASSAGEM;
+			movimentos--;
 		}
 		if (caminho[2])
 		{
+			movimentos++;
 			labirinto[linha + 1][coluna] = PASSOU;
-			resolverLabirinto(labirinto, linha + 1, coluna, linFim, colFim);
+			resolverLabirinto(labirinto, linha + 1, coluna, linFim, colFim, movimentos, menorMovimentos, resolvido, resposta);
 			labirinto[linha + 1][coluna] = PASSAGEM;
+			movimentos--;
 		}
 		if (caminho[3])
 		{
+			movimentos++;
 			labirinto[linha][coluna - 1] = PASSOU;
-			resolverLabirinto(labirinto, linha, coluna - 1, linFim, colFim);
+			resolverLabirinto(labirinto, linha, coluna - 1, linFim, colFim, movimentos, menorMovimentos, resolvido, resposta);
 			labirinto[linha][coluna - 1] = PASSAGEM;
+			movimentos--;
 		}
 	}
 }
