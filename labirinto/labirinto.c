@@ -14,6 +14,7 @@
 
 void imprimirLabirinto(int labirinto[][N]);
 void lerLabirinto(int labirinto[][N], int *linInicio, int *colInicio, int *linFim, int *colFim);
+void copiarLabirinto(int destino[][N], int origem[][N]);
 void resolverLabirinto(int labirinto[][N], int linha, int coluna, int linFim, int colFim, int movimentos, int *menorMovimentos, bool *resolvido, int resposta[][N]);
 
 int main()
@@ -70,6 +71,7 @@ void resolverLabirinto(int labirinto[][N], int linha, int coluna, int linFim, in
 	bool caminho[4] = {false}; // 0 - cima, 1 - direita, 2 - baixo, 3 - esquerda
 	int quantCaminhos = 0;
 
+	// salvar resposta
 	if (linha == linFim && coluna == colFim)
 	{
 		if (!(*resolvido) || (movimentos < *menorMovimentos))
@@ -108,7 +110,7 @@ void resolverLabirinto(int labirinto[][N], int linha, int coluna, int linFim, in
 	if (quantCaminhos == 0)
 		return;
 
-	// explorar
+	// explorar caminhos
 	if (quantCaminhos >= 1)
 	{
 		if (caminho[0])
