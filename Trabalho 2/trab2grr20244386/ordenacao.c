@@ -14,17 +14,9 @@ void getNome(char nome[])
 
 uint32_t getGRR() { return 20244386; }
 
-void mergeSortAuxiliar(int vetor[], int vetorTemp[], size_t a, size_t b, uint64_t *numComparacoes)
+void merge(int vetor[], int vetorTemp[], size_t a, size_t metade, size_t b, uint64_t *numComparacoes)
 {
-    size_t metade, idxEsquerdo, idxDireito;
-
-    if (a >= b)
-        return;
-
-    metade = (a + b) / 2;
-
-    mergeSortAuxiliar(vetor, vetorTemp, a, metade, numComparacoes);
-    mergeSortAuxiliar(vetor, vetorTemp, metade + 1, b, numComparacoes);
+    size_t idxEsquerdo, idxDireito;
 
     idxEsquerdo = a;
     idxDireito = metade + 1;
@@ -58,6 +50,18 @@ void mergeSortAuxiliar(int vetor[], int vetorTemp[], size_t a, size_t b, uint64_
     trocarElementosVetor(vetor, vetorTemp, a, b);
 }
 
+void mergeSortAuxiliar(int vetor[], int vetorTemp[], size_t a, size_t b, uint64_t *numComparacoes)
+{
+    size_t metade = (a + b) / 2;
+
+    if (a >= b)
+        return;
+
+    mergeSortAuxiliar(vetor, vetorTemp, a, metade, numComparacoes);
+    mergeSortAuxiliar(vetor, vetorTemp, metade + 1, b, numComparacoes);
+    merge(vetor, vetorTemp, a, (a + b) / 2, b, numComparacoes);
+}
+
 uint64_t mergeSort(int vetor[], size_t tam)
 {
     uint64_t numComparacoes = 0;
@@ -76,12 +80,12 @@ uint64_t mergeSort(int vetor[], size_t tam)
     return numComparacoes;
 }
 
-size_t separarQuickSort(int vetor[], size_t a, size_t b, uint64_t *numComparacoes)
+size_t separarQuickSort(int vetor[], ssize_t a, ssize_t b, uint64_t *numComparacoes)
 {
     int pivo = vetor[b];
     size_t m = a;
 
-    for (size_t i = a; i < b; i++)
+    for (ssize_t i = a; i < b; i++)
     {
         if (vetor[i] <= pivo)
         {
@@ -101,7 +105,7 @@ void quickSortAuxiliar(int vetor[], ssize_t a, ssize_t b, uint64_t *numComparaco
     if (a >= b)
         return;
 
-    size_t m = separarQuickSort(vetor, a, b, numComparacoes);
+    ssize_t m = separarQuickSort(vetor, a, b, numComparacoes);
     quickSortAuxiliar(vetor, a, m - 1, numComparacoes);
     quickSortAuxiliar(vetor, m + 1, b, numComparacoes);
 }
@@ -110,7 +114,7 @@ uint64_t quickSort(int vetor[], size_t tam)
 {
     uint64_t numComparacoes = 0;
 
-    quickSortAuxiliar(vetor, 0, tam, &numComparacoes);
+    quickSortAuxiliar(vetor, 0, tam - 1, &numComparacoes);
 
     return numComparacoes;
 }
@@ -176,75 +180,33 @@ uint64_t heapSort(int vetor[], size_t tam)
 uint64_t mergeSortSR(int vetor[], size_t tam)
 {
     uint64_t numComparacoes = 0;
-    size_t metade, idxEsquerdo, idxDireito, a = 0, b = tam - 1;
-    pilha_t *pilha;
-    int *vetorTemp = NULL;
+    int *vetorTemp = (int *)malloc(tam * sizeof(int));
+    size_t b, metade;
 
-    if (tam <= 1)
-        return 0;
-
-    pilha = criarPilha();
-
-    vetorTemp = (int *)malloc(tam * sizeof(int));
     if (vetorTemp == NULL)
     {
         printf("Falha fatal.\n");
         return 0;
     }
 
-    empilhar(pilha, a);
-    empilhar(pilha, b);
-
-    while (!pilhaVazia(pilha))
+    // Divide o vetor em tamanhos de 1 para 2 para 4 e assim por diante
+    for (size_t tamVetor = 1; tamVetor <= tam - 1; tamVetor *= 2)
     {
-        b = desempilhar(pilha);
-        a = desempilhar(pilha);
-
-        if (a >= b)
-            continue;
-
-        metade = (a + b) / 2;
-
-        empilhar(pilha, a);
-        empilhar(pilha, metade);
-        empilhar(pilha, metade + 1);
-        empilhar(pilha, b);
-
-        idxEsquerdo = a;
-        idxDireito = metade + 1;
-
-        for (size_t i = a; i <= b; i++)
+        for (size_t a = 0; a < tam - 1; a += 2 * tamVetor)
         {
-            if (idxEsquerdo > metade)
-            {
-                vetorTemp[i] = vetor[idxDireito];
-                idxDireito++;
-            }
-            else if (idxDireito > b)
-            {
-                vetorTemp[i] = vetor[idxEsquerdo];
-                idxEsquerdo++;
-            }
-            else if (vetor[idxEsquerdo] < vetor[idxDireito])
-            {
-                numComparacoes++;
-                vetorTemp[i] = vetor[idxEsquerdo];
-                idxEsquerdo++;
-            }
-            else
-            {
-                numComparacoes++;
-                vetorTemp[i] = vetor[idxDireito];
-                idxDireito++;
-            }
-        }
+            metade = a + tamVetor - 1;
+            if (metade >= tam - 1)
+                break;
 
-        trocarElementosVetor(vetor, vetorTemp, a, b);
+            b = a + 2 * tamVetor - 1;
+            if (b >= tam - 1)
+                b = tam - 1;
+
+            merge(vetor, vetorTemp, a, metade, b, &numComparacoes);
+        }
     }
 
     free(vetorTemp);
-
-    destruirPilha(pilha);
 
     return numComparacoes;
 }
@@ -253,7 +215,7 @@ uint64_t quickSortSR(int vetor[], size_t tam)
 {
     uint64_t numComparacoes = 0;
     pilha_t *pilha;
-    ssize_t a = 0, b = tam, pivo;
+    ssize_t a = 0, b = tam - 1, pivo;
 
     pilha = criarPilha();
 

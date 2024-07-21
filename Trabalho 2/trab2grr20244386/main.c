@@ -22,6 +22,19 @@ void testeMergeSort(int *vetor, size_t tam)
 		printf("ERRO AO ORDERNAR ELEMENTO %ld\n", resultado);
 		imprimirSecaoVetor(vetor, tam, (size_t)resultado);
 	}
+
+	printf("MERGE SORT ITERATIVO\n");
+
+	gerarOrdemNaoCrescente(vetor, tam);
+	numComp = mergeSortSR(vetor, tam);
+	printf("Num. comparacoes: %ld\n", numComp);
+
+	resultado = verificarOrdenacao(vetor, tam);
+	if (resultado != -1)
+	{
+		printf("ERRO AO ORDERNAR ELEMENTO %ld\n", resultado);
+		imprimirSecaoVetor(vetor, tam, (size_t)resultado);
+	}
 }
 
 void testeQuickSort(int *vetor, size_t tam)
@@ -32,6 +45,7 @@ void testeQuickSort(int *vetor, size_t tam)
 	printf("QUICK SORT RECURSIVO\n");
 
 	gerarOrdemNaoCrescente(vetor, tam);
+
 	numComp = quickSort(vetor, tam);
 	printf("Num. comparacoes: %ld\n", numComp);
 
@@ -94,26 +108,25 @@ int main()
 	char nome[MAX_CHAR];
 
 	size_t tamVetor;
-	int *vetor;
+	int *vetor = NULL;
 
 	getNome(nome);
 	printf("Trabalho de %s\n", nome);
 	printf("GRR %u\n\n", getGRR());
 
-	printf("Insira o tamanho do vetor inicial: ");
-	scanf("%ld", &tamVetor);
-	printf("\n");
-
-	vetor = (int *)malloc(tamVetor * sizeof(int));
-	if (vetor == NULL)
+	for (tamVetor = 10000; tamVetor <= 30000; tamVetor += 10000)
 	{
-		printf("Falha fatal. Impossível alocar memoria.");
-		return 1;
+		vetor = (int *)realloc(vetor, tamVetor * sizeof(int));
+		if (vetor == NULL)
+		{
+			printf("Falha fatal. Impossível alocar memoria.");
+			return 1;
+		}
+		printf("\nTAMANHO DO VETOR: %ld\n\n", tamVetor);
+		testeMergeSort(vetor, tamVetor);
+		testeQuickSort(vetor, tamVetor);
+		testeHeapSort(vetor, tamVetor);
 	}
-
-	testeMergeSort(vetor, tamVetor);
-	testeQuickSort(vetor, tamVetor);
-	testeHeapSort(vetor, tamVetor);
 
 	free(vetor);
 
