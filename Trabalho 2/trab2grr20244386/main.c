@@ -5,8 +5,7 @@
 #include "ordenacao.h"
 #include "auxiliar.h"
 
-void testeMergeSort(int *vetor, size_t tam)
-{
+void testeMergeSort(int *vetor, size_t tam) {
 	uint64_t numComp = 0;
 	ssize_t resultado;
 
@@ -17,8 +16,7 @@ void testeMergeSort(int *vetor, size_t tam)
 	printf("Num. comparacoes: %ld\n", numComp);
 
 	resultado = verificarOrdenacao(vetor, tam);
-	if (resultado != -1)
-	{
+	if (resultado != -1) {
 		printf("ERRO AO ORDERNAR ELEMENTO %ld\n", resultado);
 		imprimirSecaoVetor(vetor, tam, (size_t)resultado);
 	}
@@ -30,15 +28,13 @@ void testeMergeSort(int *vetor, size_t tam)
 	printf("Num. comparacoes: %ld\n", numComp);
 
 	resultado = verificarOrdenacao(vetor, tam);
-	if (resultado != -1)
-	{
+	if (resultado != -1) {
 		printf("ERRO AO ORDERNAR ELEMENTO %ld\n", resultado);
 		imprimirSecaoVetor(vetor, tam, (size_t)resultado);
 	}
 }
 
-void testeQuickSort(int *vetor, size_t tam)
-{
+void testeQuickSort(int *vetor, size_t tam) {
 	uint64_t numComp = 0;
 	ssize_t resultado;
 
@@ -50,8 +46,7 @@ void testeQuickSort(int *vetor, size_t tam)
 	printf("Num. comparacoes: %ld\n", numComp);
 
 	resultado = verificarOrdenacao(vetor, tam);
-	if (resultado != -1)
-	{
+	if (resultado != -1) {
 		printf("ERRO AO ORDERNAR ELEMENTO %ld\n", resultado);
 		imprimirSecaoVetor(vetor, tam, (size_t)resultado);
 	}
@@ -63,15 +58,13 @@ void testeQuickSort(int *vetor, size_t tam)
 	printf("Num. comparacoes: %ld\n", numComp);
 
 	resultado = verificarOrdenacao(vetor, tam);
-	if (resultado != -1)
-	{
+	if (resultado != -1) {
 		printf("ERRO AO ORDERNAR ELEMENTO %ld\n", resultado);
 		imprimirSecaoVetor(vetor, tam, (size_t)resultado);
 	}
 }
 
-void testeHeapSort(int *vetor, size_t tam)
-{
+void testeHeapSort(int *vetor, size_t tam) {
 	uint64_t numComp = 0;
 	ssize_t resultado;
 
@@ -82,8 +75,7 @@ void testeHeapSort(int *vetor, size_t tam)
 	printf("Num. comparacoes: %ld\n", numComp);
 
 	resultado = verificarOrdenacao(vetor, tam);
-	if (resultado != -1)
-	{
+	if (resultado != -1) {
 		printf("ERRO AO ORDERNAR ELEMENTO %ld\n", resultado);
 		imprimirSecaoVetor(vetor, tam, (size_t)resultado);
 	}
@@ -95,16 +87,14 @@ void testeHeapSort(int *vetor, size_t tam)
 	printf("Num. comparacoes: %ld\n", numComp);
 
 	resultado = verificarOrdenacao(vetor, tam);
-	if (resultado != -1)
-	{
+	if (resultado != -1) {
 		printf("ERRO AO ORDERNAR ELEMENTO %ld\n", resultado);
 		imprimirSecaoVetor(vetor, tam, (size_t)resultado);
 		imprimirVetor(vetor, tam);
 	}
 }
 
-int main()
-{
+int main() {
 	char nome[MAX_CHAR];
 
 	size_t tamVetor;
@@ -114,11 +104,9 @@ int main()
 	printf("Trabalho de %s\n", nome);
 	printf("GRR %u\n\n", getGRR());
 
-	for (tamVetor = 10000; tamVetor <= 30000; tamVetor += 10000)
-	{
+	for (tamVetor = 10000; tamVetor <= 30000; tamVetor += 10000) {
 		vetor = (int *)realloc(vetor, tamVetor * sizeof(int));
-		if (vetor == NULL)
-		{
+		if (vetor == NULL) {
 			printf("Falha fatal. Impossível alocar memoria.");
 			return 1;
 		}
