@@ -37,13 +37,13 @@ void imprimirSecaoVetor(int vetor[], size_t tam, size_t elem) {
 }
 
 void gerarVetor(int vetor[], size_t tam, bool aleatorio, int vetorAleatorio[]) {
-  if (aleatorio) {
-    trocarElementosVetor(vetor, vetorAleatorio, 0, tam-1);
-  } else {
-    for (size_t i = 0; i < tam; i++) {
-      vetor[i] = tam - i;
+    if (aleatorio) {
+        trocarElementosVetor(vetor, vetorAleatorio, 0, tam-1);
+    } else {
+        for (size_t i = 0; i < tam; i++) {
+            vetor[i] = tam - i;
+        }
     }
-  }
 }
 
 void gerarVetorAleatorio(int vetor[], size_t tam) {

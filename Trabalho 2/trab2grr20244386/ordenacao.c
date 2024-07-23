@@ -175,8 +175,7 @@ uint64_t mergeSortSR(int vetor[], size_t tam) {
     return numComparacoes;
 }
 
-uint64_t quickSortSR(int vetor[], size_t tam)
-{
+uint64_t quickSortSR(int vetor[], size_t tam) {
     uint64_t numComparacoes = 0;
     pilha_t *pilha;
     ssize_t a = 0, b = tam - 1, pivo;
@@ -233,8 +232,7 @@ void maxHeapifySR(int vetor[], size_t n, size_t tam, uint64_t *numComparacoes) {
     }
 }
 
-uint64_t heapSortSR(int vetor[], size_t tam)
-{
+uint64_t heapSortSR(int vetor[], size_t tam) {
     uint64_t numComparacoes = 0;
 
     for (ssize_t i = tam / 2 - 1; i >= 0; i--) {
