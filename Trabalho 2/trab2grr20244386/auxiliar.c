@@ -47,11 +47,9 @@ void gerarVetor(int vetor[], size_t tam, bool aleatorio, int vetorAleatorio[]) {
 }
 
 void gerarVetorAleatorio(int vetor[], size_t tam) {
-  srand(time(NULL));
-
-  for (size_t i = 0; i < tam; i++) {
-    vetor[i] = rand() % tam;
-  }
+    for (size_t i = 0; i < tam; i++) {
+        vetor[i] = rand() % tam;
+    }
 }
 
 ssize_t verificarOrdenacao(int vetor[], size_t tam) {

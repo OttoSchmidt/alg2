@@ -6,114 +6,90 @@
 #include "ordenacao.h"
 #include "auxiliar.h"
 
+void verificarTeste(int *vetor, size_t tam, uint64_t numComp) {
+    ssize_t resultado;
+
+    printf("Num. comparacoes: %ld\n", numComp);
+    resultado = verificarOrdenacao(vetor, tam);
+    if (resultado != -1) {
+        printf("ERRO AO ORDENADOR ELEMENTO %ld\n", resultado);
+        imprimirSecaoVetor(vetor, tam, (size_t)resultado);
+    }
+}
+
 void testeMergeSort(int *vetor, size_t tam, bool aleatorio, int *vetorAleatorio) {
     uint64_t numComp = 0;
-	  ssize_t resultado;
 
 	  printf("MERGE SORT RECURSIVO\n");
 
     gerarVetor(vetor, tam, aleatorio, vetorAleatorio);
     numComp = mergeSort(vetor, tam);
-	  printf("Num. comparacoes: %ld\n", numComp);
-
-	  resultado = verificarOrdenacao(vetor, tam);
-	  if (resultado != -1) {
-        printf("ERRO AO ORDERNAR ELEMENTO %ld\n", resultado);
-        imprimirSecaoVetor(vetor, tam, (size_t)resultado);
-	  }
+    verificarTeste(vetor, tam, numComp);
 
 	  printf("MERGE SORT ITERATIVO\n");
     
     gerarVetor(vetor, tam, aleatorio, vetorAleatorio);
 	  numComp = mergeSortSR(vetor, tam);
-	  printf("Num. comparacoes: %ld\n", numComp);
-
-	  resultado = verificarOrdenacao(vetor, tam);
-	  if (resultado != -1) {
-        printf("ERRO AO ORDERNAR ELEMENTO %ld\n", resultado);
-        imprimirSecaoVetor(vetor, tam, (size_t)resultado);
-	  }
+    verificarTeste(vetor, tam, numComp);
 }
 
 void testeQuickSort(int *vetor, size_t tam, bool aleatorio, int *vetorAleatorio) {
     uint64_t numComp = 0;
-    ssize_t resultado;
 
 	  printf("QUICK SORT RECURSIVO\n");
 
     gerarVetor(vetor, tam, aleatorio, vetorAleatorio);
 	  numComp = quickSort(vetor, tam);
-	  printf("Num. comparacoes: %ld\n", numComp);
-
-	  resultado = verificarOrdenacao(vetor, tam);
-	  if (resultado != -1) {
-        printf("ERRO AO ORDERNAR ELEMENTO %ld\n", resultado);
-        imprimirSecaoVetor(vetor, tam, (size_t)resultado);
-	  }
-
-	  printf("QUICK SORT ITERATIVO\n");
+    verificarTeste(vetor, tam, numComp);
+	  
+    printf("QUICK SORT ITERATIVO\n");
 
     gerarVetor(vetor, tam, aleatorio, vetorAleatorio);
 	  numComp = quickSortSR(vetor, tam);
-	  printf("Num. comparacoes: %ld\n", numComp);
-
-	  resultado = verificarOrdenacao(vetor, tam);
-	  if (resultado != -1) {
-        printf("ERRO AO ORDERNAR ELEMENTO %ld\n", resultado);
-        imprimirSecaoVetor(vetor, tam, (size_t)resultado);
-	  }
+    verificarTeste(vetor, tam, numComp);
 }
 
 void testeHeapSort(int *vetor, size_t tam, bool aleatorio, int *vetorAleatorio) {
     uint64_t numComp = 0;
-    ssize_t resultado;
 
 	  printf("HEAP SORT RECURSIVO\n");
 
 	  gerarVetor(vetor, tam, aleatorio, vetorAleatorio);
 	  numComp = heapSort(vetor, tam);
-	  printf("Num. comparacoes: %ld\n", numComp);
-
-	  resultado = verificarOrdenacao(vetor, tam);
-	  if (resultado != -1) {
-        printf("ERRO AO ORDERNAR ELEMENTO %ld\n", resultado);
-        imprimirSecaoVetor(vetor, tam, (size_t)resultado);
-	  }
+    verificarTeste(vetor, tam, numComp);
 
 	  printf("HEAP SORT ITERATIVO\n");
 
 	  gerarVetor(vetor, tam, aleatorio, vetorAleatorio);
 	  numComp = heapSortSR(vetor, tam);
-	  printf("Num. comparacoes: %ld\n", numComp);
-
-	  resultado = verificarOrdenacao(vetor, tam);
-	  if (resultado != -1) {
-        printf("ERRO AO ORDERNAR ELEMENTO %ld\n", resultado);
-        imprimirSecaoVetor(vetor, tam, (size_t)resultado);
-	  }
+    verificarTeste(vetor, tam, numComp);
 }
 
 int main() {
+    srand(time(NULL));
 	  char nome[MAX_CHAR];
-	  size_t tamVetor = 10000, tamVetorMax = 30000, opcao, aleatorio;
+	  size_t tamVetor, incremento = 0, quantTestes, aleatorio;
 	  int *vetor = NULL, *vetorAleatorio = NULL;
 
 	  getNome(nome);
 	  printf("Trabalho de %s\n", nome);
 	  printf("GRR %u\n\n", getGRR());
 
-    printf("[0] - automatico\n[1] - manual\n");
-    scanf("%ld", &opcao);
-    printf("[0] - ordem decrescente\n[1] - aleatorio\n");
+    printf("Tamanho do vetor inicial: ");
+    scanf("%ld", &tamVetor);
+    
+    printf("Quantidade de testes: ");
+    scanf("%ld", &quantTestes);
+    
+    if (quantTestes > 1) {
+        printf("Incremento entre testes: ");
+        scanf("%ld", &incremento);
+    }
+
+    printf("Geracao do vetor:\n\t[0] - ordem decrescente\n\t[1] - aleatorio\n");
     scanf("%ld", &aleatorio);
 
-    if (opcao == 1) {
-        printf("TAMANHO VETOR: ");
-        scanf("%ld", &tamVetor);
-        tamVetorMax = tamVetor;
-    }  
-
-    for (; tamVetor <= tamVetorMax; tamVetor += 10000) {
+    for (size_t i = 0; i < quantTestes; i++) {
 	      vetor = (int*) realloc(vetor, tamVetor * sizeof(int));
 	      if (vetor == NULL) {
 	          printf("Falha fatal. Impossível alocar memoria.");
@@ -129,10 +105,12 @@ int main() {
             gerarVetorAleatorio(vetorAleatorio, tamVetor);
         }
 
-        printf("\nTAMANHO DO VETOR: %ld\n\n", tamVetor);
+        printf("\nTESTE %ld\nTAMANHO DO VETOR: %ld\n\n", i+1, tamVetor);
         testeMergeSort(vetor, tamVetor, (bool)aleatorio, vetorAleatorio);
         testeQuickSort(vetor, tamVetor, (bool)aleatorio, vetorAleatorio);
         testeHeapSort(vetor, tamVetor, (bool)aleatorio, vetorAleatorio);
+
+        tamVetor += incremento;
     }
 
     free(vetorAleatorio);
