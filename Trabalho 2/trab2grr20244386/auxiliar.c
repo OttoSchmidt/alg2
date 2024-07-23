@@ -1,6 +1,9 @@
 #include "auxiliar.h"
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <stdbool.h>
 
 void trocarElemento(int *vetor, size_t i, size_t j) {
     int temp = vetor[i];
@@ -33,15 +36,27 @@ void imprimirSecaoVetor(int vetor[], size_t tam, size_t elem) {
     printf("\n");
 }
 
-void gerarOrdemNaoCrescente(int vetor[], size_t tam) {
+void gerarVetor(int vetor[], size_t tam, bool aleatorio, int vetorAleatorio[]) {
+  if (aleatorio) {
+    trocarElementosVetor(vetor, vetorAleatorio, 0, tam-1);
+  } else {
     for (size_t i = 0; i < tam; i++) {
-        vetor[i] = tam - i;
+      vetor[i] = tam - i;
     }
+  }
+}
+
+void gerarVetorAleatorio(int vetor[], size_t tam) {
+  srand(time(NULL));
+
+  for (size_t i = 0; i < tam; i++) {
+    vetor[i] = rand() % tam;
+  }
 }
 
 ssize_t verificarOrdenacao(int vetor[], size_t tam) {
-    for (size_t i = 0; i < tam; i++) {
-        if (vetor[i] != (int)i + 1) return i;
+    for (size_t i = 0; i < tam-1; i++) {
+        if (vetor[i] > vetor[i+1]) return i;
     }
 
     return -1;

@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <sys/types.h>
 
 //trocar elementos num vetor localizados em i e j
@@ -17,8 +18,11 @@ void imprimirVetor(int vetor[], size_t tam);
 //mostra na tela 2 elementos antes e depois (se existirem) do elemento dado no vetor
 void imprimirSecaoVetor(int vetor[], size_t tam, size_t elem);
 
-//gera um vetor com elementos ordenados de forma não crescente
-void gerarOrdemNaoCrescente(int vetor[], size_t tam);
+//gera um vetor com elementos ordenados de forma não crescente ou copia de um vetor aleatorio
+void gerarVetor(int vetor[], size_t tam, bool aleatorio, int vetorAleatorio[]);
+
+//gera um vetor aleatorio
+void gerarVetorAleatorio(int vetor[], size_t tam);
 
 //verificar ordenacao do vetor
 //retorno: -1 se estiver ordenado ou indice do elemento fora de lugar
