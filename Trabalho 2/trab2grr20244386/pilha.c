@@ -5,12 +5,17 @@
 
 pilha_t *criarPilha() {
     const size_t TAM_PILHA = 1048576;
-    pilha_t *pilha = (pilha_t *)malloc(1 * sizeof(pilha_t));
 
-    pilha->elementos = (int *)malloc(TAM_PILHA * sizeof(int));
+    pilha_t *pilha = (pilha_t*) malloc(1 * sizeof(pilha_t));
+    if (pilha == NULL) {
+        printf("Impossivel alocar a pilha.\n");
+        return NULL;
+    }
+
+    pilha->elementos = (int*) malloc(TAM_PILHA * sizeof(int));
 
     if (pilha->elementos == NULL) {
-        printf("Erro ao alocar memória para a pilha.\n");
+        printf("Impossivel alocar a pilha.\n");
         return NULL;
     }
 

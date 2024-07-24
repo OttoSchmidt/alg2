@@ -47,15 +47,14 @@ void mergeSortAuxiliar(int vetor[], int vetorTemp[], size_t a, size_t b, uint64_
 
     mergeSortAuxiliar(vetor, vetorTemp, a, metade, numComparacoes);
     mergeSortAuxiliar(vetor, vetorTemp, metade + 1, b, numComparacoes);
-    merge(vetor, vetorTemp, a, (a + b) / 2, b, numComparacoes);
+    merge(vetor, vetorTemp, a, metade, b, numComparacoes);
 }
 
 uint64_t mergeSort(int vetor[], size_t tam) {
     uint64_t numComparacoes = 0;
-
-    int *vetorTemp = (int *)malloc(tam * sizeof(int));
+    int *vetorTemp = (int*) malloc(tam * sizeof(int));
     if (vetorTemp == NULL) {
-        printf("Falha fatal.\n");
+        printf("Impossivel alocar vetor auxiliar do mergeSort.\n");
         return 0;
     }
 
@@ -66,11 +65,11 @@ uint64_t mergeSort(int vetor[], size_t tam) {
     return numComparacoes;
 }
 
-size_t separarQuickSort(int vetor[], ssize_t a, ssize_t b, uint64_t *numComparacoes) {
+size_t particionarQuickSort(int vetor[], size_t a, ssize_t b, uint64_t *numComparacoes) {
     int pivo = vetor[b];
     size_t m = a;
 
-    for (ssize_t i = a; i < b; i++) {
+    for (size_t i = a; (ssize_t)i < b; i++) {
         if (vetor[i] <= pivo) {
             trocarElemento(vetor, m, i);
             m++;
@@ -86,8 +85,8 @@ size_t separarQuickSort(int vetor[], ssize_t a, ssize_t b, uint64_t *numComparac
 void quickSortAuxiliar(int vetor[], ssize_t a, ssize_t b, uint64_t *numComparacoes) {
     if (a >= b) return;
 
-    ssize_t m = separarQuickSort(vetor, a, b, numComparacoes);
-    quickSortAuxiliar(vetor, a, m - 1, numComparacoes);
+    size_t m = particionarQuickSort(vetor, a, b, numComparacoes);
+    quickSortAuxiliar(vetor, a, (ssize_t)m - 1, numComparacoes);
     quickSortAuxiliar(vetor, m + 1, b, numComparacoes);
 }
 
@@ -141,15 +140,15 @@ uint64_t heapSort(int vetor[], size_t tam) {
 
 uint64_t mergeSortSR(int vetor[], size_t tam) {
     uint64_t numComparacoes = 0;
-    int *vetorTemp = (int *)malloc(tam * sizeof(int));
+    int *vetorTemp = (int*) malloc(tam * sizeof(int));
     size_t b, metade;
 
     if (vetorTemp == NULL) {
-        printf("Falha fatal.\n");
+        printf("Impossivel alocar vetor auxiliar do mergeSortSR.\n");
         return 0;
     }
 
-    for (size_t tamVetor = 1; tamVetor <= tam - 1; tamVetor *= 2) {
+    for (size_t tamVetor = 1; tamVetor < tam; tamVetor *= 2) {
         for (size_t a = 0; a < tam - 1; a += 2 * tamVetor) {
             metade = a + tamVetor - 1;
             if (metade >= tam - 1) break;
@@ -172,6 +171,9 @@ uint64_t quickSortSR(int vetor[], size_t tam) {
     ssize_t a = 0, b = tam - 1, pivo;
 
     pilha = criarPilha();
+    if (pilha == NULL) {
+        return 0;
+    }
 
     empilhar(pilha, a);
     empilhar(pilha, b);
@@ -181,7 +183,7 @@ uint64_t quickSortSR(int vetor[], size_t tam) {
         a = desempilhar(pilha);
 
         if (b > a && b > 0) {
-            pivo = separarQuickSort(vetor, a, b, &numComparacoes);
+            pivo = particionarQuickSort(vetor, a, b, &numComparacoes);
             empilhar(pilha, a);
             empilhar(pilha, pivo - 1);
             empilhar(pilha, pivo + 1);
