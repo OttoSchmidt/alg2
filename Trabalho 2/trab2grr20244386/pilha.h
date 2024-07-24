@@ -15,7 +15,11 @@ typedef struct
 
 // Cria uma pilha vazia de inteiros com a capacidade máxima definida na função
 // Retorno: ponteiro p/ a pilha ou NULL se falhar
-pilha_t *criarPilha();
+pilha_t* criarPilha();
+
+// Aumenta a capacidade e realoca o vetor de elementos da pilha
+// Retorno: verdadeiro se realloc for bem sucedido, caso contrário, falso
+bool aumentarPilha(pilha_t *pilha);
 
 // Remove todos os elementos da pilha, libera espaço
 void destruirPilha(pilha_t *pilha);

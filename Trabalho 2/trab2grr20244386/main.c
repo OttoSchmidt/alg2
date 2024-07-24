@@ -6,11 +6,17 @@
 #include "ordenacao.h"
 #include "auxiliar.h"
 
-void verificarTeste(int *vetor, size_t tam, uint64_t numComp) {
+void verificarTeste(int *vetor, size_t tam, uint64_t numComp, bool aleatorio) {
     ssize_t resultado;
 
     printf("Num. comparacoes: %ld\n", numComp);
-    resultado = verificarOrdenacao(vetor, tam);
+
+    if (aleatorio) {
+        resultado = verificarOrdenacaoAleatorio(vetor, tam);
+    } else {
+        resultado = verificarOrdenacaoNormal(vetor, tam);
+    }
+    
     if (resultado != -1) {
         printf("ERRO AO ORDENADOR ELEMENTO %ld\n", resultado);
         imprimirSecaoVetor(vetor, tam, (size_t)resultado);
@@ -24,13 +30,13 @@ void testeMergeSort(int *vetor, size_t tam, bool aleatorio, int *vetorAleatorio)
 
     gerarVetor(vetor, tam, aleatorio, vetorAleatorio);
     numComp = mergeSort(vetor, tam);
-    verificarTeste(vetor, tam, numComp);
+    verificarTeste(vetor, tam, numComp, aleatorio);
 
 	  printf("MERGE SORT ITERATIVO\n");
     
     gerarVetor(vetor, tam, aleatorio, vetorAleatorio);
 	  numComp = mergeSortSR(vetor, tam);
-    verificarTeste(vetor, tam, numComp);
+    verificarTeste(vetor, tam, numComp, aleatorio);
 }
 
 void testeQuickSort(int *vetor, size_t tam, bool aleatorio, int *vetorAleatorio) {
@@ -40,13 +46,13 @@ void testeQuickSort(int *vetor, size_t tam, bool aleatorio, int *vetorAleatorio)
 
     gerarVetor(vetor, tam, aleatorio, vetorAleatorio);
 	  numComp = quickSort(vetor, tam);
-    verificarTeste(vetor, tam, numComp);
+    verificarTeste(vetor, tam, numComp, aleatorio);
 	  
     printf("QUICK SORT ITERATIVO\n");
 
     gerarVetor(vetor, tam, aleatorio, vetorAleatorio);
 	  numComp = quickSortSR(vetor, tam);
-    verificarTeste(vetor, tam, numComp);
+    verificarTeste(vetor, tam, numComp, aleatorio);
 }
 
 void testeHeapSort(int *vetor, size_t tam, bool aleatorio, int *vetorAleatorio) {
@@ -56,13 +62,13 @@ void testeHeapSort(int *vetor, size_t tam, bool aleatorio, int *vetorAleatorio) 
 
 	  gerarVetor(vetor, tam, aleatorio, vetorAleatorio);
 	  numComp = heapSort(vetor, tam);
-    verificarTeste(vetor, tam, numComp);
+    verificarTeste(vetor, tam, numComp, aleatorio);
 
 	  printf("HEAP SORT ITERATIVO\n");
 
 	  gerarVetor(vetor, tam, aleatorio, vetorAleatorio);
 	  numComp = heapSortSR(vetor, tam);
-    verificarTeste(vetor, tam, numComp);
+    verificarTeste(vetor, tam, numComp, aleatorio);
 }
 
 int main() {

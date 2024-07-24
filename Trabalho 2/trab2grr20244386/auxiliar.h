@@ -6,11 +6,11 @@
 #include <stdbool.h>
 #include <sys/types.h>
 
-//trocar elementos num vetor localizados em i e j
-void trocarElemento(int vetor[], size_t i, size_t j);
+//trocar elementos num vetor localizados em a e b
+void trocarElemento(int vetor[], size_t a, size_t b);
 
 //troca todos os elementos do vetorOrigem para vetorDest
-void trocarElementosVetor(int vetorDest[], int vetorOrigem[], size_t a, size_t b);
+void copiarVetor(int vetorDest[], int vetorOrigem[], size_t a, size_t b);
 
 //mostra na tela todos os elementos do vetor
 void imprimirVetor(int vetor[], size_t tam);
@@ -24,8 +24,12 @@ void gerarVetor(int vetor[], size_t tam, bool aleatorio, int vetorAleatorio[]);
 //gera um vetor aleatorio
 void gerarVetorAleatorio(int vetor[], size_t tam);
 
-//verificar ordenacao do vetor
+//verificar ordenacao do vetor quando ele foi gerado de forma aleatoria
 //retorno: -1 se estiver ordenado ou indice do elemento fora de lugar
-ssize_t verificarOrdenacao(int vetor[], size_t tam);
+ssize_t verificarOrdenacaoAleatorio(int vetor[], size_t tam);
+
+//verifciar ordenacao do vetor quando ele foi gerado pela funcao gerarVetor de forma ao aleatoria
+//retorno: -1 se estiver ordenado ou indice do elemento fora de lugar
+ssize_t verificarOrdenacaoNormal(int vetor[], size_t tam);
 
 #endif  // AUXILIAR_H_

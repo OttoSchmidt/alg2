@@ -25,16 +25,35 @@ pilha_t *criarPilha() {
     return pilha;
 }
 
+bool aumentarPilha(pilha_t *pilha) {
+    int *novosElementos;
+    const int NOVO_TAMANHO = pilha->capacidade + 100000; 
+   
+    novosElementos = (int*) realloc(pilha->elementos, NOVO_TAMANHO * sizeof(int));
+    if (novosElementos == NULL) {
+        return false;
+    }
+    
+    pilha->elementos = novosElementos;
+    pilha->capacidade = NOVO_TAMANHO;
+
+    return true;
+}
+
 void destruirPilha(pilha_t *pilha) {
     free(pilha->elementos);
     free(pilha);
 }
 
 void empilhar(pilha_t *pilha, int elem) {
-    if (pilhaCheia(pilha)) return;
-
-    pilha->elementos[pilha->tamanho] = elem;
-    pilha->tamanho++;
+    if (pilhaCheia(pilha)) {
+        if (!aumentarPilha(pilha)) {
+            printf("Impossivel aumentar pilha.\n");
+            return; 
+        }
+    }
+    
+    pilha->elementos[pilha->tamanho++] = elem;
 }
 
 int desempilhar(pilha_t *pilha) {

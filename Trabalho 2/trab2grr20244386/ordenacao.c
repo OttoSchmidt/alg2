@@ -37,7 +37,7 @@ void merge(int vetor[], int vetorTemp[], size_t a, size_t metade, size_t b, uint
         }
     }
 
-    trocarElementosVetor(vetor, vetorTemp, a, b);
+    copiarVetor(vetor, vetorTemp, a, b);
 }
 
 void mergeSortAuxiliar(int vetor[], int vetorTemp[], size_t a, size_t b, uint64_t *numComparacoes) {
@@ -47,6 +47,8 @@ void mergeSortAuxiliar(int vetor[], int vetorTemp[], size_t a, size_t b, uint64_
 
     mergeSortAuxiliar(vetor, vetorTemp, a, metade, numComparacoes);
     mergeSortAuxiliar(vetor, vetorTemp, metade + 1, b, numComparacoes);
+    
+    //printf("%ld;%ld;\n", a, b);
     merge(vetor, vetorTemp, a, metade, b, numComparacoes);
 }
 
@@ -141,24 +143,46 @@ uint64_t heapSort(int vetor[], size_t tam) {
 uint64_t mergeSortSR(int vetor[], size_t tam) {
     uint64_t numComparacoes = 0;
     int *vetorTemp = (int*) malloc(tam * sizeof(int));
-    size_t b, metade;
+    size_t a = 0, b = tam-1, metade;
+    pilha_t *pilhaModelo, *pilha;
 
     if (vetorTemp == NULL) {
         printf("Impossivel alocar vetor auxiliar do mergeSortSR.\n");
         return 0;
     }
 
-    for (size_t tamVetor = 1; tamVetor < tam; tamVetor *= 2) {
-        for (size_t a = 0; a < tam - 1; a += 2 * tamVetor) {
-            metade = a + tamVetor - 1;
-            if (metade >= tam - 1) break;
+    if (tam <= 1) return 0;
+    pilhaModelo = criarPilha();
+    pilha = criarPilha();
 
-            b = a + 2 * tamVetor - 1;
-            if (b >= tam - 1) b = tam - 1;
+    empilhar(pilhaModelo, a);
+    empilhar(pilhaModelo, b);
 
-            merge(vetor, vetorTemp, a, metade, b, &numComparacoes);
+    while(!pilhaVazia(pilhaModelo)) {
+        b = desempilhar(pilhaModelo);
+        a = desempilhar(pilhaModelo);
+        metade = (a+b)/2;
+
+        if (a < b) {
+            empilhar(pilhaModelo, a);
+            empilhar(pilhaModelo, metade);
+            empilhar(pilhaModelo, metade+1);
+            empilhar(pilhaModelo, b);
+            
+            empilhar(pilha, a);
+            empilhar(pilha, b);
         }
     }
+
+    while (!pilhaVazia(pilha)) {
+        b = desempilhar(pilha);
+        a = desempilhar(pilha);
+        
+        merge(vetor, vetorTemp, a, (a+b)/2, b, &numComparacoes);
+    }
+
+    destruirPilha(pilha);
+    destruirPilha(pilhaModelo);
 
     free(vetorTemp);
 
