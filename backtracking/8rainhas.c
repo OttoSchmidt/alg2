@@ -34,19 +34,17 @@ void procurarRainha(int *p, int tam, int linhaAtual, int *quantSolucoes)
         return;
     }
 
-    for (int coluna = 0; coluna < tam; coluna++)
-    {
+    for (int coluna = 0; coluna < tam; coluna++) {
         permitido = true;
-        for (int linha = 0; linha < linhaAtual; linha++)
-        {
-            if (p[linha] == coluna || p[linha] == coluna + linhaAtual - linha || p[linha] == coluna - linhaAtual + linha)
-            {
+        
+        for (int linha = 0; linha < linhaAtual; linha++) {
+            if (p[linha] == coluna || p[linha] == coluna + linhaAtual - linha || p[linha] == coluna - linhaAtual + linha) {
                 permitido = false;
                 break;
             }
         }
-        if (permitido)
-        {
+
+        if (permitido) {
             p[linhaAtual] = coluna;
             procurarRainha(p, tam, linhaAtual + 1, quantSolucoes);
         }
