@@ -48,7 +48,6 @@ void mergeSortAuxiliar(int vetor[], int vetorTemp[], size_t a, size_t b, uint64_
     mergeSortAuxiliar(vetor, vetorTemp, a, metade, numComparacoes);
     mergeSortAuxiliar(vetor, vetorTemp, metade + 1, b, numComparacoes);
     
-    //printf("%ld;%ld;\n", a, b);
     merge(vetor, vetorTemp, a, metade, b, numComparacoes);
 }
 
@@ -87,8 +86,8 @@ size_t particionarQuickSort(int vetor[], size_t a, ssize_t b, uint64_t *numCompa
 void quickSortAuxiliar(int vetor[], ssize_t a, ssize_t b, uint64_t *numComparacoes) {
     if (a >= b) return;
 
-    size_t m = particionarQuickSort(vetor, a, b, numComparacoes);
-    quickSortAuxiliar(vetor, a, (ssize_t)m - 1, numComparacoes);
+    ssize_t m = particionarQuickSort(vetor, a, b, numComparacoes);
+    quickSortAuxiliar(vetor, a, m - 1, numComparacoes);
     quickSortAuxiliar(vetor, m + 1, b, numComparacoes);
 }
 
@@ -152,8 +151,9 @@ uint64_t mergeSortSR(int vetor[], size_t tam) {
     }
 
     if (tam <= 1) return 0;
-    pilhaModelo = criarPilha();
+
     pilha = criarPilha();
+    pilhaModelo = criarPilha();
 
     empilhar(pilhaModelo, a);
     empilhar(pilhaModelo, b);
@@ -174,6 +174,8 @@ uint64_t mergeSortSR(int vetor[], size_t tam) {
         }
     }
 
+    destruirPilha(pilhaModelo);
+
     while (!pilhaVazia(pilha)) {
         b = desempilhar(pilha);
         a = desempilhar(pilha);
@@ -182,7 +184,6 @@ uint64_t mergeSortSR(int vetor[], size_t tam) {
     }
 
     destruirPilha(pilha);
-    destruirPilha(pilhaModelo);
 
     free(vetorTemp);
 

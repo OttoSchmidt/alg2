@@ -11,7 +11,7 @@ pilha_t *criarPilha() {
         printf("Impossivel alocar a pilha.\n");
         return NULL;
     }
-
+    
     pilha->elementos = (int*) malloc(TAM_PILHA * sizeof(int));
 
     if (pilha->elementos == NULL) {
@@ -28,7 +28,7 @@ pilha_t *criarPilha() {
 bool aumentarPilha(pilha_t *pilha) {
     int *novosElementos;
     const int NOVO_TAMANHO = pilha->capacidade + 100000; 
-   
+
     novosElementos = (int*) realloc(pilha->elementos, NOVO_TAMANHO * sizeof(int));
     if (novosElementos == NULL) {
         return false;
