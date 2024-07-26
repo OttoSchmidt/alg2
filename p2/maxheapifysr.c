@@ -85,7 +85,9 @@ int main () {
     verificarMaxHeap(heap, 0, tam, &valido);
 
     if (valido) {
-        printf("")
+        printf("valido\n");
+    } else {
+        printf("nao valido\n");
     }
 
     free(heap);
