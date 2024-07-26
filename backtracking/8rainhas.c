@@ -2,19 +2,13 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-void imprimirTabuleiro(int *p, size_t tam)
-{
-    for (size_t i = 0; i < tam; i++)
-    {
-        for (size_t j = 0; j < tam; j++)
-        {
-            if (p[i] == j)
-            {
-                printf("[R] ");
-            }
-            else
-            {
-                printf("[ ] ");
+void imprimirTabuleiro(int *p, size_t tam) {
+    for (size_t i = 0; i < tam; i++) {
+        for (size_t j = 0; j < tam; j++) {
+            if (p[i] == j) {
+                printf("[R]");
+            } else {
+                printf("[ ]");
             }
         }
         printf("\n");
@@ -23,18 +17,15 @@ void imprimirTabuleiro(int *p, size_t tam)
     printf("\n");
 }
 
-void procurarRainha(int *p, int tam, int linhaAtual, int *quantSolucoes)
-{
+void procurarRainha(int *p, int tam, int linhaAtual, bool *resolvido) {
     bool permitido;
 
-    if (linhaAtual == tam)
-    {
-        (*quantSolucoes)++;
-        // imprimirTabuleiro(p, tam);
+    if (linhaAtual == tam) {
+        *resolvido = true;
         return;
     }
 
-    for (int coluna = 0; coluna < tam; coluna++) {
+    for (int coluna = 0; coluna < tam && !(*resolvido); coluna++) {
         permitido = true;
         
         for (int linha = 0; linha < linhaAtual; linha++) {
@@ -46,7 +37,7 @@ void procurarRainha(int *p, int tam, int linhaAtual, int *quantSolucoes)
 
         if (permitido) {
             p[linhaAtual] = coluna;
-            procurarRainha(p, tam, linhaAtual + 1, quantSolucoes);
+            procurarRainha(p, tam, linhaAtual + 1, resolvido);
         }
     }
 }
@@ -60,24 +51,22 @@ linhaAtual = 2
 4[ ] [ ] [x] [ ]
 */
 
-int main()
-{
-    int *p, quantSolucoes = 0;
+int main() {
+    int *p;
     size_t tam;
+    bool resolvido = false;
 
     printf("Digite o tamanho do tabuleiro: ");
     scanf("%lu", &tam);
 
     p = (int *)calloc(tam, sizeof(int));
-    if (p == NULL)
-    {
+    if (p == NULL) {
         printf("Erro: Memória insuficiente!\n");
         exit(1);
     }
 
-    procurarRainha(p, tam, 0, &quantSolucoes);
-
-    printf("Solucoes: %d\n", quantSolucoes);
+    procurarRainha(p, tam, 0, &resolvido);
+    imprimirTabuleiro(p, tam);
 
     free(p);
 
