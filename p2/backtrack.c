@@ -36,5 +36,7 @@ int main(int argc, char *argv[]) {
 
     backtrack(v, n, 0, k);
 
+    free(v);
+
     return 0;
 }
