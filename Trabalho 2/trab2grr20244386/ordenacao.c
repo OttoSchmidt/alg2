@@ -47,7 +47,7 @@ void mergeSortAuxiliar(int vetor[], int vetorTemp[], size_t a, size_t b, uint64_
 
     mergeSortAuxiliar(vetor, vetorTemp, a, metade, numComparacoes);
     mergeSortAuxiliar(vetor, vetorTemp, metade + 1, b, numComparacoes);
-    
+
     merge(vetor, vetorTemp, a, metade, b, numComparacoes);
 }
 
@@ -130,7 +130,7 @@ uint64_t heapSort(int vetor[], size_t tam) {
     for (ssize_t i = tam / 2 - 1; i >= 0; i--) {
         maxHeapify(vetor, i, tam, &numComparacoes);
     }
-    
+
     for (size_t i = tam - 1; i > 0; i--) {
         trocarElemento(vetor, 0, i);
         maxHeapify(vetor, 0, i, &numComparacoes);
@@ -168,7 +168,7 @@ uint64_t mergeSortSR(int vetor[], size_t tam) {
             empilhar(pilhaModelo, metade);
             empilhar(pilhaModelo, metade+1);
             empilhar(pilhaModelo, b);
-            
+
             empilhar(pilha, a);
             empilhar(pilha, b);
         }
@@ -179,7 +179,7 @@ uint64_t mergeSortSR(int vetor[], size_t tam) {
     while (!pilhaVazia(pilha)) {
         b = desempilhar(pilha);
         a = desempilhar(pilha);
-        
+
         merge(vetor, vetorTemp, a, (a+b)/2, b, &numComparacoes);
     }
 
